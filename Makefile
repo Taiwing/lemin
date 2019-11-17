@@ -12,7 +12,9 @@ NAME		=	lem-in
 
 ############################## SOURCES #########################################
 
-SRCC			=	main.c\
+SRCC			=	lemin_options.c\
+					main.c\
+					print_help.c\
 
 ODIR			=	obj
 OBJ				=	$(patsubst %.c,%.o,$(SRCC))
@@ -32,7 +34,9 @@ $(NAME): $(SUB1D)/libft.a $(ODIR) $(OBJ)
 $(SUB1D)/libft.a:
 	make -C $(SUB1D)
 
-main.o: t_lemindata.h t_vertex.h libft.h
+lemin_options.o: lemin_options.h t_lemindata.h t_vertex.h libft.h
+main.o: lemin_options.h t_lemindata.h t_vertex.h libft.h print_help.h
+print_help.o: lemin_options.h t_lemindata.h t_vertex.h libft.h
 %.o: %.c
 	@mkdir -p $(ODIR)
 	$(CC) -c $(CFLAGS) $< $(HFLAGS) -o $(ODIR)/$@

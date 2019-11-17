@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_lemindata.h                                      :+:      :+:    :+:   */
+/*   lemin_options.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/17 16:36:53 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/17 23:08:43 by yforeau          ###   ########.fr       */
+/*   Created: 2019/11/17 22:44:21 by yforeau           #+#    #+#             */
+/*   Updated: 2019/11/17 23:08:32 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_LEMINDATA_H
-# define T_LEMINDATA_H
-# include "t_vertex.h"
+#ifndef LEMIN_OPTIONS_H
+# define LEMIN_OPTIONS_H
+# include "t_lemindata.h"
 
-typedef struct	s_lemindata
-{
-	int			options;
-	int			ret;
-	t_list		*map;
-	long int	antn;
-	int			vlen;
-	t_vertex	*v;
-	int			**e;
-	int			s;
-	int			t;
-}				t_lemindata;
+# define OPT_COUNT			4
+
+# define O_HELP				0x01
+# define O_ANTS				0x02
+# define O_SOLUTION			0x04
+# define O_EXPLAINED		0x08
+
+# define OPTSTRING			"ha:se"
+
+void	get_lemin_options(t_lemindata *lda, int argc, char **argv);
 
 #endif

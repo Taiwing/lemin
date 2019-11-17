@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_lemindata.h                                      :+:      :+:    :+:   */
+/*   print_help.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/17 16:36:53 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/17 23:08:43 by yforeau          ###   ########.fr       */
+/*   Created: 2019/11/17 23:09:36 by yforeau           #+#    #+#             */
+/*   Updated: 2019/11/17 23:25:34 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_LEMINDATA_H
-# define T_LEMINDATA_H
-# include "t_vertex.h"
+#ifndef PRINT_HELP_H
+# define PRINT_HELP_H
 
-typedef struct	s_lemindata
-{
-	int			options;
-	int			ret;
-	t_list		*map;
-	long int	antn;
-	int			vlen;
-	t_vertex	*v;
-	int			**e;
-	int			s;
-	int			t;
-}				t_lemindata;
+void	print_help(char *name);
 
 #endif
