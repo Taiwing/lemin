@@ -1,0 +1,6 @@
+[submodule "lemin_tk"]
+	path = lemin_tk
+	url = https://github.com/Taiwing/lemin_tk.git
+[submodule "libft"]
+	path = libft
+	url = https://github.com/Taiwing/libft.git
