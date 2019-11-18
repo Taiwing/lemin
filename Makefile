@@ -43,7 +43,7 @@ $(SUB1D)/libft.a:
 lemin_options.o: lemin_options.h t_lemindata.h t_vertex.h libft.h
 main.o: lemin_options.h t_lemindata.h t_vertex.h libft.h print_help.h\
 	lemin_parser.h
-lemin_parser.o: t_lemindata.h t_vertex.h libft.h
+lemin_parser.o: t_lemindata.h t_vertex.h libft.h lemin_options.h
 print_help.o: lemin_options.h t_lemindata.h t_vertex.h libft.h
 %.o: %.c
 	@mkdir -p $(ODIR)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_lemindata.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
+/*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 16:36:53 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/17 23:08:43 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/18 11:55:02 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct	s_lemindata
 	t_list		*map;
 	long int	antn;
 	int			vlen;
-	t_vertex	*v;
+	t_vertex	**v;
 	int			**e;
 	int			s;
 	int			t;
