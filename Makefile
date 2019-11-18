@@ -21,8 +21,10 @@ SRCC			=	lemin_options.c\
 
 PARSERC			=	lemin_parser.c\
 
-SOLVERC			=	lemin_path.c\
+SOLVERC			=	bfs.c\
+					lemin_path.c\
 					lemin_solver.c\
+					solution.c\
 
 ODIR			=	obj
 OBJ				=	$(patsubst %.c,%.o,$(PARSERC))\
@@ -52,8 +54,11 @@ main.o: lemin_options.h t_lemindata.h t_vertex.h t_leminpath.h libft.h\
 	print_help.h lemin_parser.h lemin_solver.h
 lemin_parser.o: t_lemindata.h t_vertex.h t_leminpath.h libft.h
 print_help.o: lemin_options.h t_lemindata.h t_vertex.h t_leminpath.h libft.h
+bfs.o: bfs.h t_lemindata.h t_vertex.h t_leminpath.h libft.h lemin_path.h
 lemin_path.o: t_lemindata.h t_vertex.h t_leminpath.h libft.h
-lemin_solver.o: lemin_path.h t_lemindata.h t_vertex.h t_leminpath.h libft.h
+lemin_solver.o: lemin_path.h t_lemindata.h t_vertex.h t_leminpath.h libft.h\
+	solution.h
+solution.o: lemin_path.h t_lemindata.h t_vertex.h t_leminpath.h libft.h
 %.o: %.c
 	@mkdir -p $(ODIR)
 	$(CC) -c $(CFLAGS) $< $(HFLAGS) -o $(ODIR)/$@

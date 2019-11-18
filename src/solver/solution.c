@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin_path.h                                       :+:      :+:    :+:   */
+/*   solution.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 11:27:43 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/18 19:08:58 by yforeau          ###   ########.fr       */
+/*   Created: 2019/11/18 19:06:26 by yforeau           #+#    #+#             */
+/*   Updated: 2019/11/18 19:08:41 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_PATH_H
-# define LEMIN_PATH_H
-# include "t_lemindata.h"
+#include "lemin_path.h"
 
-void		set_path(t_leminpath *path, t_lemindata *lda,
-				int edge[2], t_leminpath *path_id);
-void		del_path_node(void *content, size_t content_size);
-void		destroy_path(t_lemindata *lda, t_leminpath **path);
-int			path_len_cmp(t_leminpath *p1, t_leminpath *p2);
-t_leminpath	*build_path(t_lemindata *lda, int *parent);
+void		add_path(t_lemindata *lda, t_list **solution, t_leminpath *path)
+{
+	t_list	*new;
 
-#endif
+	set_path(path, lda, (int[2]){0, -1}, path);
+	new = ft_lstnew(NULL, 0);
+	new->content = path;
+	ft_lst_sorted_insert(solution, new, path_len_cmp);
+}

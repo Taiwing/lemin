@@ -6,11 +6,26 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 12:58:05 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/18 18:31:14 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/18 19:12:03 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bfs.h"
+#include "lemin_path.h"
+
+static void	queue_append(t_bfsdata *bda, int node)
+{
+	if (!bda->first)
+	{
+		bda->first = ft_lstnew(&node, sizeof(int));
+		bda->last = bda->first;
+	}
+	else
+	{
+		ft_lst_push_back(&bda->last, &node, sizeof(int));
+		bda->last = bda->last->next;
+	}
+}
 
 static void	init_bfsdata(t_bfsdata *bda, t_lemindata *lda)
 {
@@ -34,20 +49,6 @@ static int	queue_popleft(t_bfsdata *bda)
 	ft_lst_discard(NULL, &bda->first);
 	bda->last = bda->first ? bda->last : bda->first;
 	return (node);
-}
-
-static void	queue_append(t_bfsdata *bda, int node)
-{
-	if (!bda->first)
-	{
-		bda->first = ft_lstnew(&node, sizeof(int));
-		bda->last = bda->first;
-	}
-	else
-	{
-		ft_lst_push_back(&bda->last, &node, sizeof(int));
-		bda->last = bda->last->next;
-	}
 }
 
 static int	is_visitable(t_lemindata *lda, t_bfsdata *bda)
@@ -82,8 +83,8 @@ t_leminpath	*bfs(t_lemindata *lda)
 	while (bda.first)
 	{
 		bda.dead_end = 1;
-		if ((bda.cur = queue_pop(&bda)) == lda.t)
-			return (build_path(lda, bda.parent)); //TODO
+		if ((bda.cur = queue_popleft(&bda)) == lda->t)
+			return (build_path(lda, bda.parent));
 		ptr = lda->v[bda.cur]->adj;
 		bda.cur_path = lda->v[bda.cur]->path;
 		while (ptr)

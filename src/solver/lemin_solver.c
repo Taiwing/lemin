@@ -6,11 +6,13 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 09:47:21 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/18 18:30:45 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/18 19:15:57 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin_path.h"
+#include "solution.h"
+#include "bfs.h"
 
 static int	get_maxflow(t_lemindata *lda)
 {
@@ -36,14 +38,15 @@ void		lemin_solver(t_lemindata *lda, t_list **solution)
 	flow = 0;
 	maxflow = get_maxflow(lda);
 	path = NULL;
+	new_turns = 0;	//TEMP
 	while (flow < maxflow)
 	{
 		if (!(path = bfs(lda)))
 			break ;
 		//TODO: fix_overlap
 		//TODO: test_new_solution
-		new_turns = path->overlap ? fix_overlap(lda, &path, solution, turns) :
-			test_new_solution(*solution, path, lda->antn); 
+//		new_turns = path->overlap ? fix_overlap(lda, &path, solution, turns) :
+//			test_new_solution(*solution, path, lda->antn); 
 		if (new_turns < turns || turns == -1)
 		{
 			turns = new_turns;

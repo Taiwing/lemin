@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 11:27:22 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/18 18:45:26 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/18 19:14:37 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void		del_path_node(void *content, size_t content_size)
 void		destroy_path(t_lemindata *lda, t_leminpath **path)
 {
 	set_path(*path, lda, (int[2]){0, 0}, NULL);
-	ft_listdel(&(*path)->nodes, del_path_node);
+	ft_lstdel(&(*path)->nodes, del_path_node);
 	ft_memdel((void **)path);
 }
 
@@ -50,27 +50,17 @@ int			path_len_cmp(t_leminpath *p1, t_leminpath *p2)
 	return (p1->len - p2->len);
 }
 
-void		add_path(t_lemindata *lda, t_list **solution, t_leminpath *path)
-{
-	t_list	*new;
-
-	set_path(path, lda, (int[2]){0, -1}, path);
-	new = ft_lstnew(NULL, 0);
-	new->content = path;
-	ft_lst_sorted_insert(solution, new, path_len_cmp);
-}
-
 t_leminpath	*build_path(t_lemindata *lda, int *parent)
 {
 	t_leminpath	*path;
 	int			cur;
 
 	path = ft_memalloc(sizeof(t_leminpath));
-	ft_lst_push_front(&lda->nodes, &lda->t, sizeof(int));
+	ft_lst_push_front(&path->nodes, &lda->t, sizeof(int));
 	cur = lda->t;
 	while (cur != lda->s)
 	{
-		cur = bda->parent[cur] - 1;
+		cur = parent[cur] - 1;
 		path->overlap = !path->overlap ? lda->v[cur]->path : path->overlap;
 		ft_lst_push_front(&path->nodes, &cur, sizeof(int));
 		++path->len;
