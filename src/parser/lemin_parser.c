@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 08:58:47 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/18 16:25:43 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/18 16:40:28 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,11 @@ int	lemin_parser(t_lemindata *lda)
 		else if (!is_comment(line) && !check_fun[fun_i](line))
 		{
 			++fun_i;
+			if (fun_i > 2)
+			{
+				ft_printf("ERRRROOOOR, leaving parser on FUN %d\n\n", fun_i);
+				return (1);
+			}			
 			if (!check_fun[fun_i](line))
 			{
 				ft_printf("ERRRROOOOR, leaving parser on FUN %d\n\n", fun_i);
@@ -223,11 +228,6 @@ int	lemin_parser(t_lemindata *lda)
 		}
 		if (fun_i == 0)
 			++fun_i;
-		if (fun_i > 2)
-		{
-			ft_printf("ERRRROOOOR, leaving parser on FUN %d\n\n", fun_i);
-			return (1);
-		}
 		
 		//ft_printf("ERRRROOOOR, leaving parser on FUN %d\n\n", fun_i);
 
