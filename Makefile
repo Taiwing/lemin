@@ -13,6 +13,7 @@ NAME		=	lem-in
 ############################## SOURCES #########################################
 
 PARSERDIR		=	parser
+SOLVERDIR		=	solver
 
 SRCC			=	lemin_options.c\
 					main.c\
@@ -20,14 +21,18 @@ SRCC			=	lemin_options.c\
 
 PARSERC			=	lemin_parser.c\
 
+SOLVERC			=	lemin_solver.c\
+
 ODIR			=	obj
 OBJ				=	$(patsubst %.c,%.o,$(PARSERC))\
+					$(patsubst %.c,%.o,$(SOLVERC))\
 					$(patsubst %.c,%.o,$(SRCC))\
 
 vpath			%.o	$(ODIR)
 vpath			%.h	$(HDIR)
 vpath			%.h	$(SUB1D)/$(HDIR)
 vpath			%.c	$(SRCDIR)/$(PARSERDIR)
+vpath			%.c	$(SRCDIR)/$(SOLVERDIR)
 vpath			%.c	$(SRCDIR)
 
 ############################## BUILD ###########################################
@@ -42,9 +47,10 @@ $(SUB1D)/libft.a:
 
 lemin_options.o: lemin_options.h t_lemindata.h t_vertex.h libft.h
 main.o: lemin_options.h t_lemindata.h t_vertex.h libft.h print_help.h\
-	lemin_parser.h
+	lemin_parser.h lemin_solver.h
 lemin_parser.o: t_lemindata.h t_vertex.h libft.h
 print_help.o: lemin_options.h t_lemindata.h t_vertex.h libft.h
+lemin_solver.o: t_lemindata.h t_vertex.h libft.h
 %.o: %.c
 	@mkdir -p $(ODIR)
 	$(CC) -c $(CFLAGS) $< $(HFLAGS) -o $(ODIR)/$@
