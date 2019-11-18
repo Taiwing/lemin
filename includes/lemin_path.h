@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_lemindata.h                                      :+:      :+:    :+:   */
+/*   lemin_path.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/17 16:36:53 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/18 11:55:19 by yforeau          ###   ########.fr       */
+/*   Created: 2019/11/18 11:27:43 by yforeau           #+#    #+#             */
+/*   Updated: 2019/11/18 12:38:49 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_LEMINDATA_H
-# define T_LEMINDATA_H
-# include "t_vertex.h"
+#ifndef LEMIN_PATH_H
+# define LEMIN_PATH_H
+# include "t_lemindata.h"
 
-typedef struct	s_lemindata
-{
-	int			options;
-	int			ret;
-	t_list		*map;
-	long int	antn;
-	int			vlen;
-	t_vertex	**v;
-	int			**e;
-	int			s;
-	int			t;
-}				t_lemindata;
+void	set_path(t_leminpath *path, t_lemindata *lda,
+			int edge[2], t_leminpath *path_id);
+void	del_path_node(void *content, size_t content_size);
+void	destroy_path(t_lemindata *lda, t_leminpath **path);
+int		path_len_cmp(t_leminpath *p1, t_leminpath *p2);
+void	add_path(t_lemindata *lda, t_list **solution, t_leminpath *path);
 
 #endif

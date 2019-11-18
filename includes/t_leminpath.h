@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_lemindata.h                                      :+:      :+:    :+:   */
+/*   t_leminpath.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/17 16:36:53 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/18 11:55:19 by yforeau          ###   ########.fr       */
+/*   Created: 2019/11/18 10:37:46 by yforeau           #+#    #+#             */
+/*   Updated: 2019/11/18 11:22:46 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_LEMINDATA_H
-# define T_LEMINDATA_H
-# include "t_vertex.h"
+#ifndef T_LEMINPATH_H
+# define T_LEMINPATH_H
+# include "libft.h"
 
-typedef struct	s_lemindata
+# define FORWARD	0
+# define BACKWARD	1
+
+typedef struct			s_leminpath
 {
-	int			options;
-	int			ret;
-	t_list		*map;
-	long int	antn;
-	int			vlen;
-	t_vertex	**v;
-	int			**e;
-	int			s;
-	int			t;
-}				t_lemindata;
+	t_list				*nodes;
+	int					len;
+	struct s_leminpath	*overlap;
+}						t_leminpath;
 
 #endif
