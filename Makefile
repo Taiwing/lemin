@@ -12,16 +12,22 @@ NAME		=	lem-in
 
 ############################## SOURCES #########################################
 
+PARSERDIR		=	parser
+
 SRCC			=	lemin_options.c\
 					main.c\
 					print_help.c\
 
+PARSERC			=	lemin_parser.c\
+
 ODIR			=	obj
-OBJ				=	$(patsubst %.c,%.o,$(SRCC))
+OBJ				=	$(patsubst %.c,%.o,$(PARSERC))\
+					$(patsubst %.c,%.o,$(SRCC))\
 
 vpath			%.o	$(ODIR)
 vpath			%.h	$(HDIR)
 vpath			%.h	$(SUB1D)/$(HDIR)
+vpath			%.c	$(SRCDIR)/$(PARSERDIR)
 vpath			%.c	$(SRCDIR)
 
 ############################## BUILD ###########################################
@@ -35,7 +41,9 @@ $(SUB1D)/libft.a:
 	make -C $(SUB1D)
 
 lemin_options.o: lemin_options.h t_lemindata.h t_vertex.h libft.h
-main.o: lemin_options.h t_lemindata.h t_vertex.h libft.h print_help.h
+main.o: lemin_options.h t_lemindata.h t_vertex.h libft.h print_help.h\
+	lemin_parser.h
+lemin_parser.o: t_lemindata.h t_vertex.h libft.h
 print_help.o: lemin_options.h t_lemindata.h t_vertex.h libft.h
 %.o: %.c
 	@mkdir -p $(ODIR)
