@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 09:47:21 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/19 12:58:06 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/19 14:35:07 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "solution.h"
 #include "bfs.h"
 #include "fix_overlap.h"
+#include "explain.h"
 
 static int	get_maxflow(t_lemindata *lda)
 {
@@ -39,9 +40,9 @@ static int	augmenting_path(t_lemindata *lda, t_leminpath **path,
 		new_turns = test_solution(*solution, *path, lda->antn); 
 	if (new_turns < *turns || *turns == -1)
 	{
-//		if (!overlap)
-//				print_new_path(lda, *path); TODO: explain
-//		print_new_solution(lda, *turns, new_turns); TODO: explain
+		if (!overlap)
+			explain_path(lda, *path);
+		explain_solution(lda, *turns, new_turns);
 		*turns = new_turns;
 		return (1);
 	}

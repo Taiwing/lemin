@@ -6,13 +6,14 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 07:22:56 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/19 12:50:01 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/19 14:34:55 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bfs.h"
 #include "solution.h"
 #include "lemin_path.h"
+#include "explain.h"
 
 void				del_path(t_leminpath **path)
 {
@@ -77,7 +78,7 @@ int				fix_overlap(t_lemindata *lda, t_leminpath **path,
 			&& (new_t = test_solution(*solution, split[1], lda->antn)) < turns)
 		{
 			set_path(overlap_path, lda, (int[2]){1, 1}, NULL);	//reset overlap path
-			//print_split(lda, *path, overlap_path, split);	//TODO: explain split
+			explain_split(lda, *path, overlap_path, split);
 			del_path(path);
 			*path = split[1];
 		}
