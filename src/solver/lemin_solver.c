@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 09:47:21 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/19 12:30:24 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/19 12:58:06 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,30 @@ static int	get_maxflow(t_lemindata *lda)
 	return (maxflow);
 }
 
+static int	augmenting_path(t_lemindata *lda, t_leminpath **path,
+				t_list **solution, int *turns)
+{
+	t_leminpath	*overlap;
+	int			new_turns;
+
+	if((overlap = (*path)->overlap))
+		new_turns = fix_overlap(lda, path, solution, *turns);
+	else
+		new_turns = test_solution(*solution, *path, lda->antn); 
+	if (new_turns < *turns || *turns == -1)
+	{
+//		if (!overlap)
+//				print_new_path(lda, *path); TODO: explain
+//		print_new_solution(lda, *turns, new_turns); TODO: explain
+		*turns = new_turns;
+		return (1);
+	}
+	return (0);
+}
+
 void		lemin_solver(t_lemindata *lda, t_list **solution)
 {
 	int			turns;
-	int			new_turns;
 	int			flow;
 	int			maxflow;
 	t_leminpath	*path;
@@ -38,17 +58,12 @@ void		lemin_solver(t_lemindata *lda, t_list **solution)
 	turns = -1;
 	flow = 0;
 	maxflow = get_maxflow(lda);
-	path = NULL;
-	new_turns = 0;	//TEMP
 	while (flow < maxflow)
 	{
 		if (!(path = bfs(lda)))
 			break ;
-		new_turns = path->overlap ? fix_overlap(lda, &path, solution, turns) :
-			test_solution(*solution, path, lda->antn); 
-		if (new_turns < turns || turns == -1)
+		if (augmenting_path(lda, &path, solution, &turns))
 		{
-			turns = new_turns;
 			add_path(lda, solution, path);
 			++flow;
 		}
