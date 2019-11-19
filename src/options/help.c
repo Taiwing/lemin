@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   explain.h                                          :+:      :+:    :+:   */
+/*   help.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/19 14:13:50 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/19 14:37:14 by yforeau          ###   ########.fr       */
+/*   Created: 2019/11/19 14:43:05 by yforeau           #+#    #+#             */
+/*   Updated: 2019/11/19 14:43:08 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPLAIN_H
-# define EXPLAIN_H
-# include "t_lemindata.h"
+#include "lemin_options.h"
 
-void	explain_split(t_lemindata *lda, t_leminpath *path,
-				t_leminpath *overlap_path, t_leminpath *split[2]);
-void	explain_path(t_lemindata *lda, t_leminpath *path);
-void	explain_solution(t_lemindata *lda, int turns, int new_turns);
-
-#endif
+void	help(char *name)
+{
+	ft_printf("usage: %s [-h] | [-se[a number_of_ants]] [< map]\n\n", name);
+	ft_printf("\t-h | --help: print this\n");
+	ft_printf("\t-s | --solution: only print the solution\n");
+	ft_printf("\t-e | --explained: explain the algorithm\n");
+	ft_printf("\t-a | --ants: next argument is the number of ants\n");
+}

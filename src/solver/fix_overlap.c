@@ -6,14 +6,14 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 07:22:56 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/19 14:34:55 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/19 14:46:47 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bfs.h"
 #include "solution.h"
 #include "lemin_path.h"
-#include "explain.h"
+#include "lemin_options.h"
 
 void				del_path(t_leminpath **path)
 {

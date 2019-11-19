@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 09:47:21 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/19 14:35:07 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/19 14:46:52 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "solution.h"
 #include "bfs.h"
 #include "fix_overlap.h"
-#include "explain.h"
+#include "lemin_options.h"
 
 static int	get_maxflow(t_lemindata *lda)
 {
