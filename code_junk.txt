@@ -1,0 +1,69 @@
+import subprocess 
+import os 
+  
+def excuteC(): 
+  
+    # store the return code of the c program(return 0) 
+    # and display the output 
+    s = subprocess.call("./lem-in", shell = True) 
+    s = subprocess.check_call("./lem-in", shell = True) 
+    print(", return code", s) 
+  
+
+  
+# Driver function 
+if __name__=="__main__": 
+    excuteC()     
+
+
+
+#!/usr/bin/env python3
+import os
+import subprocess
+import sys
+
+ferr = False
+if len(sys.argv) != 2:
+    print("ERROR : need path of dir of maps to check")
+    ferr = True
+if not os.path.isdir(sys.argv[1]):
+    print("ERROR : is file or dont exist")
+    ferr = True
+if ferr:
+    sys.exit()
+
+#path="/Users/trponess/Documents/lemin_c/maps/invalid_maps"
+path=sys.argv[1]
+
+inv_files = os.listdir(path) # dir is your directory path
+nb_files = len(inv_files)
+
+#call(["/bin/cat", "."])
+
+print("LAUNCHING LEMIN PARSER ON", path)
+print("nb of files to check : ", nb_files)
+print("\n")
+for i,invalid_map in enumerate(inv_files):
+    if i > 5:
+        break
+    full_path = os.path.abspath(path)+'/'+invalid_map
+    print("{}{}{}{}".format("file", (i + 1),".", invalid_map).center(50, '-'))
+    print("doing..")
+    #subprocess.call(["./lem-in", invalid_map], stderr=True)
+    #print(subprocess.run(["./lem-in", invalid_map]))
+    #print(subprocess.run(["./lem-in", invalid_map], capture_output=True))
+    #print(subprocess.run(["./lem-in", (path+'/'+invalid_map)], shell=True))
+    #print(subprocess.run(["ls", "-l", "/dev/null"], capture_output=True))
+    #s = subprocess.check_call("gcc HelloWorld.c -o out1;./out1", shell = True) 
+    
+   # s = subprocess.call("./lem-in /Users/trponess/Documents/lemin_c/maps/invalid_maps/3try_this_one3", shell = True) 
+    subprocess.call("./lem-in" + full_path, shell=True) 
+    
+    #subprocess.run(["./lem-in", invalid_map])
+    #s = subprocess.call()) 
+    #print(s)
+    
+
+    
+    print("DONE".center(50, '-'))
+    print("\n\n")

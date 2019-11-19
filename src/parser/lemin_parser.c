@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 08:58:47 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/19 12:56:42 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/19 18:35:52 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,12 +195,12 @@ int is_end(const char *line, int fd)
 #include <dirent.h> 
 #include <stdio.h> 
 
-void list_files(void) 
+void list_files(char *path) 
 {
   DIR *d;
   struct dirent *dir;
   //d = opendir("/Users/trponess/Documents/lemin_c/maps/maps");
-  d = opendir(".");
+  d = opendir(path);
   ft_printf("d:%d\n", d);
   if (d) {
     while ((dir = readdir(d)) != NULL) {
@@ -210,12 +210,13 @@ void list_files(void)
   }
 }
 
-
-
-int	lemin_parser(t_lemindata *lda)
+int	lemin_parser(t_lemindata *lda, char *path)
 {
+	if (path == NULL)
+		ft_exit(ft_strjoin("ERROR path == NULL:", path), 1);
+
 	//int fd = open("/Users/trponess/Documents/lemin_c/maps/invalid_maps/more_max_int", O_RDONLY);
-	int fd = open("/Users/trponess/Documents/lemin_c/maps/maps/easy", O_RDONLY);
+	int fd = open(path, O_RDONLY);
 	char *line = NULL;
 	int r = 0;
 
@@ -230,10 +231,10 @@ int	lemin_parser(t_lemindata *lda)
 	if ((r = get_next_line(fd, &line)) > 0)
 	{
 		if (!is_first_line(line))
-			ft_exit("DONT begins with int LINE:", 1);
+			ft_exit(ft_strjoin("DONT begins with int LINE:", line), 1);
 	}
 	else
-		ft_exit("gnl STOPPED READING or empty file GNL value r=:", 1);
+		ft_exit(ft_strjoin("gnl STOPPED READING or empty file GNL value r=:",line), 1);
 	
 	 //check if stuff is missing
 	t_list *ptr = ft_lst_push_back(&(lda->map), NULL, 0);
@@ -241,13 +242,13 @@ int	lemin_parser(t_lemindata *lda)
 	while ((r = get_next_line(fd, &line)) > 0)
 	{
 		if (!check_empty_start_L(line))//if last empty line , gnl stopped alreayd correct , otherwise file contains emprty line
-			ft_exit("ERROR start with L or empty line : ", 1);
+			ft_exit(ft_strjoin("ERROR start with L or empty line : ", line), 1);
 		if (!is_comment(line) && !check_fun[fun_i](line))
 		{
 			++fun_i;	
 			if (fun_i > 1 || !check_fun[fun_i](line))//CHECK LINK if room fails
 			{
-				ft_exit("ERROR not LINK/ROOM/COMMENT: ", 1);
+				ft_exit(ft_strjoin("ERROR not LINK/ROOM/COMMENT: ", line), 1);
 			}
 		}
 		
@@ -261,9 +262,9 @@ int	lemin_parser(t_lemindata *lda)
 		*/
 	}
 	if (r == -1)
-		ft_exit("ERROR gnl broke: LINE= ", 1);
+		ft_exit(ft_strjoin("ERROR gnl broke: LINE= ", line), 1);
 	if (fun_i != 1)
-		ft_exit("ERROR file dont finish with links LINE:", 1);
+		ft_exit(ft_strjoin("ERROR file dont finish with links LINE:", line), 1);
 
 	//CHECK IF GNL STOPS IF NO START OR END , FALSE
 	/*
@@ -273,8 +274,6 @@ int	lemin_parser(t_lemindata *lda)
 	*/
 	//if (lda->options & O_ANTS)
 	
-	ft_printf("\nHELLO, I COMPILED!!!!!\n");
-
-	//list_files();
+	//list_files("/Users/trponess/Documents/lemin_c/maps/invalid_maps");
 	return (0);
 }
