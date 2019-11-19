@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import os
 import subprocess
 import sys
@@ -13,14 +14,10 @@ if not os.path.isdir(sys.argv[1]):
 if ferr:
     sys.exit()
 
-#path="/Users/trponess/Documents/lemin_c/fmaps/fmaps"
 path=sys.argv[1]
 
-files = os.listdir(path) # dir is your directory path
+files = os.listdir(path)
 nb_files = len(files)
-
-#call(["/bin/cat", "."])
-
 print("LAUNCHING LEMIN PARSER ON", path)
 print("nb of files to check : ", nb_files)
 print("\n")
