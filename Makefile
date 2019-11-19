@@ -25,7 +25,8 @@ OPTIONSC		=	explain.c\
 
 PARSERC			=	lemin_parser.c\
 
-PRINTC			=	
+PRINTC			=	print_lemin.c\
+
 SOLVERC			=	bfs.c\
 					fix_overlap.c\
 					lemin_path.c\
@@ -60,12 +61,14 @@ $(SUB1D)/libft.a:
 	make -C $(SUB1D)
 
 main.o: lemin_options.h t_lemindata.h t_vertex.h t_leminpath.h libft.h\
-	lemin_parser.h lemin_solver.h
+	lemin_parser.h lemin_solver.h print_lemin.h
 explain.o: lemin_options.h t_lemindata.h t_vertex.h t_leminpath.h libft.h
 help.o: lemin_options.h t_lemindata.h t_vertex.h t_leminpath.h libft.h
 lemin_options.o: lemin_options.h t_lemindata.h t_vertex.h t_leminpath.h\
 	libft.h
 lemin_parser.o: t_lemindata.h t_vertex.h t_leminpath.h libft.h
+print_lemin.o: lemin_options.h t_lemindata.h t_vertex.h t_leminpath.h libft.h\
+	print_lemin.h
 bfs.o: bfs.h t_lemindata.h t_vertex.h t_leminpath.h libft.h lemin_path.h
 fix_overlap.o: bfs.h t_lemindata.h t_vertex.h t_leminpath.h libft.h solution.h\
 	lemin_path.h lemin_options.h

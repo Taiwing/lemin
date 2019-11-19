@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lemin_solver.h                                     :+:      :+:    :+:   */
+/*   print_lemin.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 09:56:14 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/19 15:19:27 by yforeau          ###   ########.fr       */
+/*   Created: 2019/11/19 15:20:41 by yforeau           #+#    #+#             */
+/*   Updated: 2019/11/19 16:24:34 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEMIN_SOLVER_H
-# define LEMIN_SOLVER_H
+#ifndef PRINT_LEMIN_H
+# define PRINT_LEMIN_H
 # include "t_lemindata.h"
 
-t_list	*lemin_solver(t_lemindata *lda, int *solution);
+enum				e_state {INACTIVE, MOVING, ARRIVED};
+
+typedef struct		s_ant
+{
+	enum e_state	state;
+	t_list			*room;
+}					t_ant;
+
+void				print_lemin(t_lemindata *lda, t_list *solution, int turns);
 
 #endif

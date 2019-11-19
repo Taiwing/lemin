@@ -6,19 +6,22 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 16:36:48 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/19 14:47:09 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/19 15:22:29 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin_options.h"
 #include "lemin_parser.h"
 #include "lemin_solver.h"
+#include "print_lemin.h"
 
 int	main(int argc, char **argv)
 {
 	t_lemindata	lda;
+	int			turns;
 	t_list		*solution;
 
+	turns = -1;
 	solution = NULL;
 	ft_bzero(&lda, sizeof(t_lemindata));
 	get_lemin_options(&lda, argc, argv);
@@ -27,8 +30,8 @@ int	main(int argc, char **argv)
 	else
 	{
 		if (!lemin_parser(&lda))
-			lemin_solver(&lda, &solution);
-		//print_lemin(&lda, solution);
+			solution = lemin_solver(&lda, &turns);
+		print_lemin(&lda, solution, turns);
 	}
 	ft_heap_collector(NULL, FT_COLLEC_FREE);
 	return (lda.ret);
