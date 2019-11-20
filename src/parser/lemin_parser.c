@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 08:58:47 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/19 18:35:52 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/20 12:31:16 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int is_room(const char *line)
 	{
 		if (ft_strlen(p[0]) > 0 && is_num(p[1]) && is_num(p[2]))
 		{
-			ft_printf("is room %s\n", line);
+			ft_printf("IS ROOM <%s>\n", line);
 			return (1);
 		}
 	}
@@ -103,7 +103,7 @@ int is_link(const char *line)
 	{
 		if (ft_strlen(p[0]) > 0 && ft_strlen(p[1]) > 0 && ft_strcmp(p[0], p[1]) != 0)
 		{
-			ft_printf("is link %s\n", line);
+			ft_printf("IS LINK <%s>\n", line);
 			return (1);
 		}
 	}
@@ -123,7 +123,7 @@ int is_comment(const char *line)
 		return (1);
 	if (line[0] == '#' && ft_strcmp("##start", line) != 0 && ft_strcmp("##end", line) != 0)
 	{
-		ft_printf("COMMENT :<%s>\n", line);
+		ft_printf("(comment) :<%s>\n", line);
 		return (1);
 	}
 	return (0);
@@ -168,12 +168,12 @@ int is_room_end_start(const char *line)
 {
 	if (!is_start_end(line))
 	{
-		ft_printf("stratend error\n");
+		//ft_printf("stratend error\n");
 		return (0);
 	}
 	if (line[0] != '#' && !is_room(line))
 	{
-		ft_printf("room error\n");
+		//ft_printf("room error\n");
 		return (0);
 	}
 	return (1);
