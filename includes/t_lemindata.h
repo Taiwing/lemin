@@ -6,13 +6,19 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 16:36:53 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/18 11:55:02 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/20 17:36:16 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_LEMINDATA_H
 # define T_LEMINDATA_H
 # include "t_vertex.h"
+
+typedef struct		s_dict
+{
+	const char		*key;
+	t_list			*val;//linkedlist of vertexes
+}					t_dict;
 
 typedef struct	s_lemindata
 {
@@ -25,6 +31,7 @@ typedef struct	s_lemindata
 	int			**e;
 	int			s;
 	int			t;
+	t_dict		v_dict[10000];
 }				t_lemindata;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 08:58:47 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/20 12:31:16 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/20 14:36:47 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,9 @@ void list_files(char *path)
 
 int	lemin_parser(t_lemindata *lda, char *path)
 {
+	//CHECK HOW OPTIONS TAKE IN FILE FOR < AND ARGV1	
+	//PATH IS ONE MAP A FILE 
+	//CHECK FILE NAME IF FILE AND IF OPENS
 	if (path == NULL)
 		ft_exit(ft_strjoin("ERROR path == NULL:", path), 1);
 

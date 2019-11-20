@@ -19,6 +19,7 @@ SRCC			=	lemin_options.c\
 					print_help.c\
 
 PARSERC			=	lemin_parser.c\
+					parser_stock.c
 
 ODIR			=	obj
 OBJ				=	$(patsubst %.c,%.o,$(PARSERC))\
