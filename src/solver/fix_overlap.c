@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 07:22:56 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/19 14:46:47 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/20 20:23:21 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,14 @@ int				fix_overlap(t_lemindata *lda, t_leminpath **path,
 	new_t = turns;
 	if ((split[0] = bfs(lda)) && !split[0]->overlap)
 	{
-		set_path(split[0], lda, (int[2]){0, -1}, split[0]);
+		set_path(split[0], lda, (int[2]){0, 0}, split[0]);
 		replace_path(solution, (*path)->overlap, split[0]);
 		if ((split[1] = bfs(lda)) && !split[1]->overlap
 			&& (new_t = test_solution(*solution, split[1], lda->antn)) < turns)
 		{
 			set_path(overlap_path, lda, (int[2]){1, 1}, NULL);	//reset overlap path
+			//unset first path AFTER reseting the overlap_path
+			set_path(split[0], lda, (int[2]){0, -1}, split[0]);
 			explain_split(lda, *path, overlap_path, split);
 			del_path(path);
 			*path = split[1];
