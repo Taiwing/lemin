@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 14:37:38 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/20 17:51:09 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/22 11:51:14 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,21 @@ unsigned long	hash_djb2(void *ptr)
 	return (hash % 10000);
 }
 
-void init_vertex(t_lemindata *lda, int map_size)
+static void init_vertex(t_lemindata *lda)
 {
     int i = 0;
 
-    lda->v = (t_vertex **)malloc(sizeof(t_vertex *) * map_size);
-    ft_bzero(lda->v, sizeof(lda->v));
-    while (i < map_size)
+    lda->v = (t_vertex **)ft_secmalloc(sizeof(t_vertex *) * (lda->nb_rooms));
+    //lda->v = (t_vertex **)malloc(sizeof(t_vertex *) * (lda->nb_rooms));
+    while (i < lda->nb_rooms)
     {
-        lda->v[i] = (t_vertex *)malloc(sizeof(t_vertex));
+        lda->v[i] = (t_vertex *)ft_secmalloc(sizeof(t_vertex));    
+        //lda->v[i] = (t_vertex *)malloc(sizeof(t_vertex));
+        lda->v[i]->id = -1;
         ++i;
     }
 }
-
+/*
 void stock_v_in_dict(t_lemindata *lda, int map_size)
 {
     int i = 0;
@@ -53,19 +55,21 @@ void stock_v_in_dict(t_lemindata *lda, int map_size)
         ++i;
     }
 }
-
+*/
 void parser_stock(t_lemindata *lda)
 {
-    lda->antn = (long int)ft_lst_at(lda->map, 0)->content;
-    int map_size = ft_lst_size(lda->map);
+    lda->antn = (long int)ft_atoi(ft_lst_at(lda->map, 0)->content);
+    
     lda->s = 0;
 
     int i = 1;
+    int vi = 0;
     int isstart = 0, isend = 0;
 
-    init_vertex(lda, map_size);
+    init_vertex(lda);
+    int size_map = ft_lst_size(lda->map);
     //t_vertex *v = (t_vertex *)malloc(sizeof(t_vertex) * map_size);//i dont know number of rooms
-    while (i < map_size)
+    while (i < size_map)
     {
         isstart = 0;
         isend = 0;
@@ -87,12 +91,18 @@ void parser_stock(t_lemindata *lda)
         {
             char *room_name = ft_split_whitespaces(line)[0];//watch out for leaks
 
-            
+            lda->v[vi]->name = ft_strdup(room_name);
+            lda->v[vi]->id = vi;
+            lda->v[vi]->status = NORMAL;
+            if (isstart)
+                lda->v[vi]->status = SOURCE;
+            if (isend)
+                lda->v[vi]->status = SINK;
 
-            lda->v[i]->name = ft_strdup(room_name);
-            lda->v[i]->id = i;
-            lda->v[i]->status = (isstart) ? SOURCE : NORMAL;
-            lda->v[i]->status = (isend) ? SINK : NORMAL;
+            //lda->v[vi]->status = (isstart == 1) ? SOURCE : NORMAL;
+           // lda->v[vi]->status = (isend) ? SINK : NORMAL;
+
+            ++vi;
             //do adj after with links
 
         }
@@ -100,18 +110,19 @@ void parser_stock(t_lemindata *lda)
             break;
         ++i;
     }
+
     /*
     init_vertex(lda);
-    int i = 0;int j = 0;
+    int i = 0;int vi = 0;
     while (i < map_size)
     {
         while (i < map_size)
         {
             t_list *n = ft_lst_at(lda->map, i);
             lda-> = n->content
-            ++j;
+            ++vi;
         }
-        j = 0;
+        vi = 0;
         ++i;
     }*/
 

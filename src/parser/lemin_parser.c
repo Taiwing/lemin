@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 08:58:47 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/20 14:36:47 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/22 11:22:09 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,8 @@ int	lemin_parser(t_lemindata *lda, char *path)
 	if (path == NULL)
 		ft_exit(ft_strjoin("ERROR path == NULL:", path), 1);
 
+	lda->nb_rooms = 0;
+
 	//int fd = open("/Users/trponess/Documents/lemin_c/maps/invalid_maps/more_max_int", O_RDONLY);
 	int fd = open(path, O_RDONLY);
 	char *line = NULL;
@@ -254,6 +256,11 @@ int	lemin_parser(t_lemindata *lda, char *path)
 				ft_exit(ft_strjoin("ERROR not LINK/ROOM/COMMENT: ", line), 1);
 			}
 		}
+		else 
+		{
+			if (fun_i == 0 && line[0] != '#')//room checker
+				lda->nb_rooms++;
+		}
 		
 		//ft_printf("ERRRROOOOR, leaving parser on FUN %d\n\n", fun_i);
 
@@ -276,7 +283,7 @@ int	lemin_parser(t_lemindata *lda, char *path)
 	ft_printf("0 ptr->content:<%s>\n", (char *)ft_lst_at(lda->map, 0)->content);
 	*/
 	//if (lda->options & O_ANTS)
-	
+parser_stock(lda);
 	//list_files("/Users/trponess/Documents/lemin_c/maps/invalid_maps");
 	return (0);
 }
