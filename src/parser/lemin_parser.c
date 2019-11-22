@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 08:58:47 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/22 11:22:09 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/22 17:15:32 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,7 @@ int	lemin_parser(t_lemindata *lda, char *path)
 		ft_exit(ft_strjoin("ERROR path == NULL:", path), 1);
 
 	lda->nb_rooms = 0;
+	lda->nb_links = 0;
 
 	//int fd = open("/Users/trponess/Documents/lemin_c/maps/invalid_maps/more_max_int", O_RDONLY);
 	int fd = open(path, O_RDONLY);
@@ -250,17 +251,23 @@ int	lemin_parser(t_lemindata *lda, char *path)
 			ft_exit(ft_strjoin("ERROR start with L or empty line : ", line), 1);
 		if (!is_comment(line) && !check_fun[fun_i](line))
 		{
-			++fun_i;	
+			++fun_i;
+
 			if (fun_i > 1 || !check_fun[fun_i](line))//CHECK LINK if room fails
 			{
 				ft_exit(ft_strjoin("ERROR not LINK/ROOM/COMMENT: ", line), 1);
 			}
+			else 
+				lda->nb_links++;
 		}
 		else 
 		{
 			if (fun_i == 0 && line[0] != '#')//room checker
 				lda->nb_rooms++;
+			if (fun_i == 1 && line[0] != '#')//room checker
+				lda->nb_links++;
 		}
+
 		
 		//ft_printf("ERRRROOOOR, leaving parser on FUN %d\n\n", fun_i);
 
