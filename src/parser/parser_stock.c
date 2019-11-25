@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 14:37:38 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/22 18:37:46 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/25 10:35:54 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,21 @@ void DISPLAY_DICTIONARY(t_lemindata *lda)//need nb_rooms, dict
 	}
 }
 
+t_dict_elem *search_for_dict_elem(t_lemindata *lda, char *room)
+{
+		int key_nb = hash_djb2(room);
+		int nb_elem = 0;
+		int max = ft_lst_size(lda->v_dict[key_nb]);
+		while (nb_elem < max)
+		{
+			t_dict_elem *x = (t_dict_elem*)ft_lst_at(lda->v_dict[key_nb], nb_elem)->content;
+			const char *k = x->key;
+			if (!ft_strcmp(room, k))
+				return (x);
+			nb_elem++;
+		}
+		return (NULL);
+}
 
 void init_edges(t_lemindata *lda)
 {
@@ -116,12 +131,23 @@ void init_edges(t_lemindata *lda)
 	}	
 }
 
-t_vertex *dict_get_value(t_lemindata *lda, char *room)
+t_vertex *get_vertex_from_dict(t_lemindata *lda, char *room)
 {
+	ft_printf("getting dict_elem_value vertex in dict name <%s> ....\n", room);
 	t_list *elem_list = (t_list *)lda->v_dict[hash_djb2(room)];
-	t_list *elem = ft_lst_find(elem_list, room, &ft_strcmp);
-
-	t_dict_elem *d = (t_dict_elem *)elem->content;
+	if (!elem_list)
+	{
+		ft_printf("hash room not in dict\n");
+		return (0);
+	}
+	t_dict_elem *d = search_for_dict_elem(lda, room); 
+	if (!d)
+	{
+		ft_printf("FOUND EXCEPTION>>>>>>>>>>>>the key wasnt found dict\n");
+		return (0);
+	}
+	t_vertex *z = (t_vertex*)d->val;
+	ft_printf("			!!!found name:%s id:%d status:%d\n",z->name, z->id, z->status); 
 	return ((t_vertex *)d->val);
 }
 
@@ -228,18 +254,15 @@ void parser_stock(t_lemindata *lda)
 
 	stock_v_in_dict(lda);
 	init_edges(lda);
-	DISPLAY_DICTIONARY(lda);
+	//DISPLAY_DICTIONARY(lda);
 
 	//get id id from v_dict[853(Oyt4)]
 	//get_id from v_dict[853(K_u1)]
 
-	t_vertex *a = dict_get_value(lda, "Oyt4");
-	t_vertex *b = dict_get_value(lda, "K_u1");
+	t_vertex *a = get_vertex_from_dict(lda, "Asa5");
+	t_vertex *b = get_vertex_from_dict(lda, "Cfl8");
 
+	
 	(void)a;
 	(void)b;
-
-
-
-
 }
