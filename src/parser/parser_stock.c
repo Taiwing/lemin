@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 14:37:38 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/25 10:35:54 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/25 15:04:07 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,6 @@ void stock_v_in_dict(t_lemindata *lda)
 		d.key = lda->v[i]->name;
 		d.val = lda->v[i];
 		ft_lst_push_back(&lda->v_dict[key_nb], &d,sizeof(t_dict_elem));
-		
-//-----------TEST-----------------
-/*int nb_elem = 0;
-int max = ft_lst_size(lda->v_dict[key_nb]);
-ft_printf("-----v_dict[%d]---------\n", key_nb);
-while (nb_elem < max)
-{
-	t_dict_elem *x = (t_dict_elem*)ft_lst_at(lda->v_dict[key_nb], nb_elem)->content;
-	const char *k = x->key;
-	t_vertex *v = (t_vertex *)x->val;
-	ft_printf("content of lda->v_dict[%d(%s)] elem %d : key <%s> val-vertex:[roomname]<%s> [id]<%d> [status]<%d>\n", \
-			key_nb,k, nb_elem,\
-			k, v->name, v->id, v->status); 
-	nb_elem++;
-	
-}
-ft_printf("-----DONE-----------\n");*/
-//------------------------------
 		++i;
 	}
 }
@@ -103,6 +85,67 @@ void DISPLAY_DICTIONARY(t_lemindata *lda)//need nb_rooms, dict
 	}
 }
 
+void DISPLAY_EDGED_NATRIX(t_lemindata *d)
+{
+	int y = 0;
+    int x = 0;
+    int i = 0;
+   
+   if (!d->e)
+   {
+	   ft_printf(">>>EDGES EMPTY\n");
+	   return ;
+   }
+    ft_printf("\n");
+    i = 0;
+    while (y < d->vlen)
+    {
+        //printf("%s        ", rooms[y]);
+        while (x < d->vlen)
+        {
+            ft_printf("%d ", d->e[y][x]);
+            ++x;
+        }
+        ft_printf("\n");
+        //printf("%d", matrix[i]);
+        x = 0;
+        ++y;
+    }
+}
+
+void DISPLAY_ADJ_TABLE(t_lemindata *lda)
+{
+	int i = 0;
+	int j = 0;
+	while (i < lda->vlen)
+	{
+		ft_printf("\nvertex:[roomname]<%s>[id]<%d>", lda->v[i]->name, lda->v[i]->id);
+		ft_printf("ADJ LIST : ");
+		t_list *cadj = lda->v[i]->adj;
+		if (!cadj)
+		{
+			ft_printf("IS EMPTY!!!\n");
+			return ;
+		}
+		int size = ft_lst_size(cadj);
+		while (j < size)
+		{
+			t_list *c = ft_lst_at(cadj, j);
+			void *z = c->content;
+			if (!z)
+			{
+				ft_printf("content S EMPTY!!!\n");
+				return ;
+			}
+			ft_printf(" %d -> ", *(int *)z);
+			++j;
+		}
+		
+		j = 0;
+		++i;
+	}
+}
+
 t_dict_elem *search_for_dict_elem(t_lemindata *lda, char *room)
 {
 		int key_nb = hash_djb2(room);
@@ -126,7 +169,7 @@ void init_edges(t_lemindata *lda)
 	lda->e = (int **)ft_memalloc(sizeof(int *) * (lda->nb_rooms));
 	while (i < lda->nb_rooms)
 	{
-		lda->e[i] = (int *)ft_memalloc(sizeof(int) * 2);
+		lda->e[i] = (int *)ft_memalloc(sizeof(int) * (lda->nb_rooms));
 		++i;
 	}	
 }
@@ -151,53 +194,59 @@ t_vertex *get_vertex_from_dict(t_lemindata *lda, char *room)
 	return ((t_vertex *)d->val);
 }
 
-/*
+
 void stock_adjlist_and_e(t_lemindata *lda)
 {
 	int i = 0;
 	//ft_bzero(lda->v_dict, sizeof(t_dict));
 	int size_map = ft_lst_size(lda->map);
 	//t_vertex *v = (t_vertex *)malloc(sizeof(t_vertex) * map_size);//i dont know number of rooms
-	
 	while (i < size_map)
 	{
 		char *line = (char*)ft_lst_at(lda->map, i)->content;
 
 		if (is_link(line))
 		{
-			char **p = ft_strsplit(line, '-');//tofree
-			char *room1 = p[1];
-			char *room2 = p[2];
-			//int key_nb1 = hash_djb2(room1);
-			//int key_nb2 = hash_djb2(room2);
+			
+			char **rooms = ft_strsplit(line, '-');//tofree
+			ft_printf("line %s is link -> cutting r1 %s r2 %s\n", line, rooms[0], rooms[1]);
+			
+			t_vertex *v1 = get_vertex_from_dict(lda, rooms[0]);
+			t_vertex *v2 = get_vertex_from_dict(lda, rooms[1]);
+			if (!v1 || !v2)
+				return ;
+			//v1->adj = ft_lstnew(NULL, 0);
+			t_list *x = ft_lst_push_back(&v1->adj, NULL, 0);
+			t_list *y = ft_lst_push_back(&v2->adj, NULL, 0);
+			//x->content = (int *)ft_memalloc(sizeof(int));
+			//(int *)x->content[0] = v2->id;
 
-			//ft_lst_push_back(&lda->v_dict[key_nb], &d,sizeof(t_dict_elem));
-			t_list *adj = lda->v_dict[hash_djb2(room1)]->content->val->adj;
-
-			t_list *x = ft_lst_push_back(&adj, NULL, 0);
-			x->content  = ft_strdup(room2);
-
-			t_list *keys_list = (t_list *)lda->v_dict[hash_djb2(room1)];
-			t_list *key = ft_lst_find(keys_list, room1, &ft_strcmp);
-			t_vertex *v = (t_vertex *)key->content->val;
-			int id1 = v->id;
-
-			t_list *keys_list = (t_list *)lda->v_dict[hash_djb2(room2)];
-			t_list *key = ft_lst_find(keys_list, room2, &ft_strcmp);
-			t_vertex *v = (t_vertex *)key->content->val;
-			int id2 = v->id;
-
-			lda->e[id1][id2] = 1;
-			lda->e[id2][id1] = 1;
+		//!!if someone writes r1-r2 and r2-r1 it will be added twice everywhere
+			x->content = &(v2->id);
+			void *z = x->content;
+			ft_printf("adjecing adding %d\n", *(int *)z);
+			y->content = &(v1->id);
+			void *w = y->content;
+			ft_printf("adjecing adding %d\n", *(int *)w);
 
 
+			//e 
+			ft_printf("connecting %d %d\n", v1->id, v2->id);
+			lda->e[v1->id][v2->id] = 1;
+			lda->e[v2->id][v1->id] = 1;
 
+			if (!v1->adj->content)
+				ft_printf("IS FUCKING EMPTY!!!\n");
+			//else	
+				//ft_printf("EXSIST>? %d -> \n", *(int *)(v1->adj->content));
 
+			ft_printf("\n");
 		}
+		++i;
 	}
 	
 }
-*/
+
 void parser_stock(t_lemindata *lda)
 {
 	lda->antn = (long int)ft_atoi(ft_lst_at(lda->map, 0)->content);	
@@ -254,14 +303,18 @@ void parser_stock(t_lemindata *lda)
 
 	stock_v_in_dict(lda);
 	init_edges(lda);
+	stock_adjlist_and_e(lda);	
 	//DISPLAY_DICTIONARY(lda);
 
 	//get id id from v_dict[853(Oyt4)]
 	//get_id from v_dict[853(K_u1)]
 
-	t_vertex *a = get_vertex_from_dict(lda, "Asa5");
-	t_vertex *b = get_vertex_from_dict(lda, "Cfl8");
+	t_vertex *a = get_vertex_from_dict(lda, "Asa5");//start 
+	t_vertex *b = get_vertex_from_dict(lda, "Cfl8");//end
+	DISPLAY_EDGED_NATRIX(lda);
+	DISPLAY_ADJ_TABLE(lda);
 
+	
 	
 	(void)a;
 	(void)b;
