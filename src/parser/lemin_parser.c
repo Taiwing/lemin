@@ -6,55 +6,18 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 08:58:47 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/22 17:15:32 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/26 14:37:36 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_lemindata.h"
 #include "lemin_options.h"
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-/*
-int check_line(const char *cur_line)
+void ft_error(char *msg ,const char *line, int r)
 {
-	static int first;
-
-	if (!first && ft_isdigit(ft_atoi(cur_line)))
-	{
-
-	}
-
-	if (!ft_strcmp("##start", cur_line))
-	{
-		ft_printf("start :<%s>\n", cur_line);
-		
-	}
-	else if (!ft_strcmp("##end", cur_line))
-	{
-		ft_printf("end :<%s>\n", cur_line);
-		
-	}
-	else if (ft_strstr(cur_line, "#"))
-		ft_printf("a comment :<%s>\n", cur_line);
-	else if (ft_strstr(cur_line, " "))//room
-		ft_printf("a room %s\n", cur_line);
-	else if (!ft_strstr(cur_line, " "))
-		ft_printf("a link :<%s>\n", cur_line);
-	else if (!first && ft_isdigit(ft_atoi(cur_line)))
-	{
-		ft_printf("begins with int :<%s>\n", cur_line);
-		first = 1;
-	}
-	else
-	{
-		ft_printf("ERROR <%s>\n", cur_line);
-		return (0);
-	}
-	return (1);
-}*/
-
+	ft_dprintf(2,"ERROR > \nmsg:%s \nline:|%s| \ngnl:%d", msg,line,r);
+	ft_exit(NULL, 1);
+}
 
 int is_num(const char *str)
 {
@@ -79,7 +42,6 @@ int is_room(const char *line)
 	if (!line)
 		return (0);
 	char **p = ft_strsplit(line, ' ');//dont forget to free
-	//check for \n
 	if (ft_wtlen(p) == 3)
 	{
 		if (ft_strlen(p[0]) > 0 && is_num(p[1]) && is_num(p[2]))
@@ -121,12 +83,33 @@ int is_comment(const char *line)
 {
 	if (!line)
 		return (1);
-	if (line[0] == '#' && ft_strcmp("##start", line) != 0 && ft_strcmp("##end", line) != 0)
+	if (line[0] == '#') //&& ft_strcmp("##start", line) != 0 && ft_strcmp("##end", line) != 0)
 	{
 		ft_printf("(comment) :<%s>\n", line);
 		return (1);
 	}
 	return (0);
+}
+
+
+int check_empty_start_L(const char *line)
+{
+	if (!line)
+		return (0);
+	if (ft_strlen(line) > 0 && line[0] == 'L')
+		return (0);
+	return (1);
+}
+
+/* DOESNT WORK
+
+int is_room_end_start(const char *line)
+{
+	if (!is_start_end(line))
+		return (0);
+	if (line[0] != '#' && !is_room(line))
+		return (0);
+	return (1);
 }
 
 int is_start_end(const char *line)
@@ -148,149 +131,63 @@ int is_start_end(const char *line)
 	}
 	else if (!ft_strcmp("##start", line) || !ft_strcmp("##end", line))
 	{
-		ft_printf("ERROR double start/end %s\n", line);
-		return (0);
-		
+		ft_error("double start/end", line, -2);
+		return (0);		
 	}
 	return(1);
 }
-
-int check_empty_start_L(const char *line)
-{
-	if (!line)
-		return (0);
-	if (ft_strlen(line) > 0 && line[0] == 'L')
-		return (0);
-	return (1);
-}
-
-int is_room_end_start(const char *line)
-{
-	if (!is_start_end(line))
-	{
-		//ft_printf("stratend error\n");
-		return (0);
-	}
-	if (line[0] != '#' && !is_room(line))
-	{
-		//ft_printf("room error\n");
-		return (0);
-	}
-	return (1);
-}
-/*
-int is_end(const char *line, int fd)
-{
-	char *tmp;
-
-	if (!line)
-		return (0);
-	if (ft_strlen(line) == 0 && !get_next_line(fd, tmp))
-		return ();
-	return ();
-
-}
 */
 
-#include <dirent.h> 
-#include <stdio.h> 
-
-void list_files(char *path) 
-{
-  DIR *d;
-  struct dirent *dir;
-  //d = opendir("/Users/trponess/Documents/lemin_c/maps/maps");
-  d = opendir(path);
-  ft_printf("d:%d\n", d);
-  if (d) {
-    while ((dir = readdir(d)) != NULL) {
-      printf("%s\n", dir->d_name);
-    }
-    closedir(d);
-  }
-}
-
-int	lemin_parser(t_lemindata *lda, char *path)
-{
-	//CHECK HOW OPTIONS TAKE IN FILE FOR < AND ARGV1	
-	//PATH IS ONE MAP A FILE 
-	//CHECK FILE NAME IF FILE AND IF OPENS
-	if (path == NULL)
-		ft_exit(ft_strjoin("ERROR path == NULL:", path), 1);
-
-	lda->nb_rooms = 0;
-	lda->nb_links = 0;
-
-	//int fd = open("/Users/trponess/Documents/lemin_c/maps/invalid_maps/more_max_int", O_RDONLY);
-	int fd = open(path, O_RDONLY);
+int	lemin_parser(t_lemindata *lda)
+{	
 	char *line = NULL;
 	int r = 0;
-
-	 int (*check_fun[2])(const char *) =
-	 {
-		&is_room_end_start,
+	int (*check_fun[2])(const char *) =
+	{
+		&is_room,
 		&is_link
-	 };
-	int fun_i = 0;
+	};
+	int fun_i = 0;   
 
-	//firsline
-	if ((r = get_next_line(fd, &line)) > 0)
+	if ((r = get_next_line(0, &line)) > 0)
 	{
 		if (!is_first_line(line))
-			ft_exit(ft_strjoin("DONT begins with int LINE:", line), 1);
+			ft_error("DONT begins with int LINE",line, r);
 	}
 	else
-		ft_exit(ft_strjoin("gnl STOPPED READING or empty file GNL value r=:",line), 1);
+		ft_error("gnl STOPPED READING or empty file GNL value", line, r);
 	
-	 //check if stuff is missing
 	t_list *ptr = ft_lst_push_back(&(lda->map), NULL, 0);
 	ptr->content = line;
-	while ((r = get_next_line(fd, &line)) > 0)
+	while ((r = get_next_line(0, &line)) > 0)
 	{
 		if (!check_empty_start_L(line))//if last empty line , gnl stopped alreayd correct , otherwise file contains emprty line
-			ft_exit(ft_strjoin("ERROR start with L or empty line : ", line), 1);
+			ft_error("start with L or empty line : ", line, r);
 		if (!is_comment(line) && !check_fun[fun_i](line))
 		{
 			++fun_i;
-
 			if (fun_i > 1 || !check_fun[fun_i](line))//CHECK LINK if room fails
-			{
-				ft_exit(ft_strjoin("ERROR not LINK/ROOM/COMMENT: ", line), 1);
-			}
+				ft_error("not LINK/ROOM/COMMENT: ", line, r);
 			else 
 				lda->nb_links++;
 		}
 		else 
 		{
-			if (fun_i == 0 && line[0] != '#')//room checker
+			if (fun_i == 0 && line[0] != '#')
 				lda->nb_rooms++;
-			if (fun_i == 1 && line[0] != '#')//room checker
+			if (fun_i == 1 && line[0] != '#')
 				lda->nb_links++;
 		}
-
-		
-		//ft_printf("ERRRROOOOR, leaving parser on FUN %d\n\n", fun_i);
-
 		t_list *ptr = ft_lst_push_back(&(lda->map), NULL, 0);
 		ptr->content = line;
-		/*
-		ft_printf("line :<%s>\n", line);
-		ft_printf("ptr->content:<%s>\n", (char *)ptr->content);
-		*/
 	}
 	if (r == -1)
-		ft_exit(ft_strjoin("ERROR gnl broke: LINE= ", line), 1);
+		ft_error("ERROR gnl broke: LINE= ", line, r);
 	if (fun_i != 1)
-		ft_exit(ft_strjoin("ERROR file dont finish with links LINE:", line), 1);
-
-	//CHECK IF GNL STOPS IF NO START OR END , FALSE
-	/*
-	ft_lst_at(lda->map, 2)->content = "5";
-	ft_printf("2 ptr->content:<%s>\n", (char *)ft_lst_at(lda->map, 2)->content);
-	ft_printf("0 ptr->content:<%s>\n", (char *)ft_lst_at(lda->map, 0)->content);
-	*/
-	//if (lda->options & O_ANTS)
-parser_stock(lda);
-	//list_files("/Users/trponess/Documents/lemin_c/maps/invalid_maps");
+		ft_error("ERROR file dont finish with links LINE:", line, r);
 	return (0);
 }
+
+
+//check double startend
+//

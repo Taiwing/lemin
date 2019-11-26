@@ -37,14 +37,14 @@ for i,fmap in enumerate(files):
         full_path = fmap
     full_path = full_path.replace("'", "\\'")
     #full_path = os.path.abspath(path)+'/'+fmap
-    print("{}{}{}{}".format("file", (i + 1),".", os.path.dirname(full_path)).center(50, '-'))
-    ret_code = subprocess.call("./lem-in " + full_path, shell=True) 
+    print("{}{}{}{}".format("file", (i + 1),".", fmap).center(70, '-'))
+    ret_code = subprocess.call("./lem-in <" + full_path, shell=True) 
     if ret_code == 0:
         print(">>>>>SUCCESS")
         nb_succ += 1
     else:
         failed.append(full_path)
-        print("!!!!!FAILED")
+        print("\n!!!!!FAILED")
         nb_fail += 1
     print("DONE".center(50, '-'))
     print("\n\n")

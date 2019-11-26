@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 14:37:38 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/25 16:22:36 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/26 11:46:23 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void stock_v_in_dict(t_lemindata *lda)
 		d.key = lda->v[i]->name;
 		d.val = lda->v[i];
 		ft_lst_push_back(&lda->v_dict[key_nb], &d,sizeof(t_dict_elem));
-		//ft_lstadd(&lda->v[i]->adj, ft_lstnew(NULL, 0));//causes 
 		++i;
 	}
 }
@@ -84,6 +83,12 @@ void DISPLAY_DICTIONARY(t_lemindata *lda)//need nb_rooms, dict
 		ft_printf("-----DONE-----------\n");
 		++i;
 	}
+}
+
+void DISPLAY_SIZE_INFO(t_lemindata *l)
+{
+	ft_printf("\nT_LEMINDATA\n:[ret]<%s>\n[nb_rooms]<%d>\n[nb_links]<%d>\n[antn]<%d>\n[vlen]<%d>\n[s]<%d>\n[t]<%d>\n", \
+	l->ret, l->nb_rooms, l->nb_links, l->antn, l->vlen, l->s, l->t);
 }
 
 void DISPLAY_EDGED_NATRIX(t_lemindata *d)
@@ -224,10 +229,10 @@ void stock_adjlist_and_e(t_lemindata *lda)
 				ft_printf("NOOOOO V1\n");
 			if (!v2)
 				ft_printf("NOOOOO V2\n");
-			ft_printf("PLOP\n");
+			
 			t_list *x = ft_lst_push_back(&v1->adj, NULL, 0);
 			t_list *y = ft_lst_push_back(&v2->adj, NULL, 0);
-			ft_printf("PLOP2\n");
+			
 			if (!x || !y)
 			{
 				ft_printf("fucking X Y is EMPTY");
@@ -261,8 +266,6 @@ void stock_adjlist_and_e(t_lemindata *lda)
 			lda->e[v1->id][v2->id] = 1;
 			lda->e[v2->id][v1->id] = 1;
 
-			ft_printf("e success\n");
-
 			if (!v1->adj)
 				ft_printf("IS FUCKING EMPTY!!!\n");
 			//else	
@@ -277,7 +280,7 @@ void stock_adjlist_and_e(t_lemindata *lda)
 
 void parser_stock(t_lemindata *lda)
 {
-	lda->antn = (long int)ft_atoi(ft_lst_at(lda->map, 0)->content);	
+	lda->antn = (long int)ft_atoi(ft_lst_at(lda->map, 0)->content);//check for overflow	
 	lda->vlen = lda->nb_rooms;
 	lda->s = 0;
 
@@ -338,16 +341,21 @@ void parser_stock(t_lemindata *lda)
 	stock_v_in_dict(lda);
 	init_edges(lda);
 	stock_adjlist_and_e(lda);	
-	//DISPLAY_DICTIONARY(lda);
+	
 
 	//get id id from v_dict[853(Oyt4)]
 	//get_id from v_dict[853(K_u1)]
 
 	//t_vertex *a = get_vertex_from_dict(lda, "Asa5");//start 
 	//t_vertex *b = get_vertex_from_dict(lda, "Cfl8");//end
-	DISPLAY_EDGED_NATRIX(lda);
-	DISPLAY_ADJ_TABLE(lda);
 
+	//-----------test------------------------------
+	//EEXECUTE IN ORDER
+	//DISPLAY_DICTIONARY(lda);
+	//DISPLAY_EDGED_NATRIX(lda);
+	//DISPLAY_ADJ_TABLE(lda);
+	//DISPLAY_SIZE_INFO(lda);
+	//-----------test------------------------------
 	
 	
 	//(void)a;
