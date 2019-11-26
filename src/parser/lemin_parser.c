@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 14:37:38 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/26 18:39:35 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/26 18:47:02 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,19 +82,7 @@ int is_link(const char *line)
 	return (0);
 }
 
-static void init_vertex(t_lemindata *lda)
-{
-	int i;
 
-	i = 0;
-	lda->v = (t_vertex **)ft_memalloc(sizeof(t_vertex *) * (lda->map_size));
-	while (i < lda->map_size)
-	{
-		lda->v[i] = (t_vertex *)ft_memalloc(sizeof(t_vertex));
-		lda->v[i]->id = -1;
-		++i;
-	}
-}
 
 void stock_v_in_dict(t_lemindata *lda)
 {
@@ -234,17 +222,7 @@ t_dict_elem *search_for_dict_elem(t_lemindata *lda, char *room)
 		return (NULL);
 }
 
-void init_edges(t_lemindata *lda)
-{
-	int i = 0;
 
-	lda->e = (int **)ft_memalloc(sizeof(int *) * (lda->nb_rooms + 10000));
-	while (i < lda->nb_rooms)
-	{
-		lda->e[i] = (int *)ft_memalloc(sizeof(int) * (lda->nb_rooms + 10000));
-		++i;
-	}	
-}
 
 t_vertex *get_vertex_from_dict(t_lemindata *lda, char *room)
 {
@@ -431,6 +409,22 @@ int		start_end_line(t_lemindata *lda, char o)
 	return (o == 's' ? start_l : end_l);
 }*/
 
+
+void init_vertex_edges(t_lemindata *lda)
+{
+	int i;
+
+	i = 0;
+	lda->v = (t_vertex **)ft_memalloc(sizeof(t_vertex *) * (lda->map_size));
+	lda->e = (int **)ft_memalloc(sizeof(int *) * (lda->map_size));
+	while (i < lda->map_size)
+	{
+		lda->v[i] = (t_vertex *)ft_memalloc(sizeof(t_vertex));
+		lda->e[i] = (int *)ft_memalloc(sizeof(int) * (lda->map_size));
+		++i;
+	}
+}
+
 void is_start_end(t_lemindata *lda, int li, int vi)
 {
 	char	*last_line;
@@ -464,7 +458,7 @@ void room_to_vertex(t_lemindata *lda)
 		if (is_room(line))
 		{
 			room_name = ft_split_whitespaces(line)[0];
-			lda->v[vi]->name = ft_strdup(room_name);
+			lda->v[vi]->name = room_name;
 			lda->v[vi]->id = vi;
 			is_start_end(lda, li, vi);
 			++vi;
@@ -478,8 +472,9 @@ void lemin_parser(t_lemindata *lda)
 {
 	stock_map(lda);
 	lda->antn = (long int)ft_atoi(ft_lst_at(lda->map, 0)->content);//check for overflow	
-	init_vertex(lda);
+	init_vertex_edges(lda);
 	room_to_vertex(lda);
+
 	//int i = 1;
 	//int vi = 0;
 	//int isstart = 0, isend = 0;
