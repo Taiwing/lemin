@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 14:37:38 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/26 18:47:02 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/26 18:59:43 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,28 +84,12 @@ int is_link(const char *line)
 
 
 
-void stock_v_in_dict(t_lemindata *lda)
-{
-	int i = 0;
-
-	ft_bzero(lda->v_dict, sizeof(t_dict));
-	while (i < lda->nb_rooms)
-	{
-		int key_nb = hash_djb2(lda->v[i]->name);
-		
-		t_dict_elem d;
-		d.key = lda->v[i]->name;
-		d.val = lda->v[i];
-		ft_lst_push_back(&lda->v_dict[key_nb], &d,sizeof(t_dict_elem));
-		++i;
-	}
-}
 
 void DISPLAY_DICTIONARY(t_lemindata *lda)//need nb_rooms, dict
 {
 	int i = 0;
 
-	while (i < lda->nb_rooms)
+	while (i < lda->vlen)
 	{
 		int key_nb = hash_djb2(lda->v[i]->name);
 		int nb_elem = 0;
@@ -429,7 +413,9 @@ void is_start_end(t_lemindata *lda, int li, int vi)
 {
 	char	*last_line;
 
-	last_line = (char*)ft_lst_at(lda->map, li - 1)->content;
+	last_line = NULL;
+	if (li - 1 > 0)
+		last_line = (char *)ft_lst_at(lda->map, li - 1)->content;
 	if (!ft_strcmp("##start", last_line))
 	{
 		lda->s = vi;
@@ -468,62 +454,32 @@ void room_to_vertex(t_lemindata *lda)
 	lda->vlen = vi;
 }
 
+void	stock_vertex_lst_in_dict(t_lemindata *lda)
+{
+	int				i;
+	int				key_nb;
+	t_dict_elem		d;
+
+	i = 0;
+	ft_bzero(lda->v_dict, sizeof(t_dict));
+	while (i < lda->vlen)
+	{
+		key_nb = hash_djb2(lda->v[i]->name);
+		d.key = lda->v[i]->name;
+		d.val = lda->v[i];
+		ft_lst_push_back(&lda->v_dict[key_nb], &d, sizeof(t_dict_elem));
+		++i;
+	}
+}
+
 void lemin_parser(t_lemindata *lda)
 {
 	stock_map(lda);
 	lda->antn = (long int)ft_atoi(ft_lst_at(lda->map, 0)->content);//check for overflow	
 	init_vertex_edges(lda);
 	room_to_vertex(lda);
+	stock_vertex_lst_in_dict(lda);
 
-	//int i = 1;
-	//int vi = 0;
-	//int isstart = 0, isend = 0;
-	//int startend = 0;
-
-	
-
-
-	/*int size_map = ft_lst_size(lda->map);
-	while (i < size_map)
-	{ft_printf("%d %d\n",i,  size_map);
-		isstart = 0;
-		isend = 0;
-		char *line = (char*)ft_lst_at(lda->map, i)->content;
-	
-		is_start_end(lda, line, 
-		if (!ft_strcmp("##start", line))
-		{
-			++i;
-			line = (char*)ft_lst_at(lda->map, i)->content;
-			isstart = 1;
-		}
-		if (!ft_strcmp("##end", line))
-		{
-			++i;
-			line = (char*)ft_lst_at(lda->map, i)->content;
-			isend = 1;
-		}
-		if (is_room(line))
-		{
-			char *room_name = ft_split_whitespaces(line)[0];//watch out for leaks
-
-			lda->v[vi]->name = ft_strdup(room_name);
-			lda->v[vi]->id = vi;
-			lda->v[vi]->status = NORMAL;
-			if (isstart)
-			{
-				lda->s = vi;
-				lda->v[vi]->status = SOURCE;
-			}
-			if (isend)
-			{
-				lda->t = vi;
-				lda->v[vi]->status = SINK;
-			}
-			++vi;
-		}
-		++i;
-	}*/
 
 //	stock_v_in_dict(lda);
 //	init_edges(lda);
@@ -539,7 +495,7 @@ void lemin_parser(t_lemindata *lda)
 	//-----------test------------------------------
 	//EEXECUTE IN ORDER
 	DISPLAY_VERTEX(lda);
-	//DISPLAY_DICTIONARY(lda);
+	DISPLAY_DICTIONARY(lda);
 	//DISPLAY_EDGED_NATRIX(lda);
 	//DISPLAY_ADJ_TABLE(lda);
 	DISPLAY_SIZE_INFO(lda);
