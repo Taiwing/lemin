@@ -1,7 +1,7 @@
 ############################## COMPILE VAR #####################################
 
 CC			=	gcc
-CFLAGS		=	-g -Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g
 #CFLAGS		=	-g
 HDIR		=	includes
 SRCDIR		=	src
@@ -19,7 +19,6 @@ SRCC			=	lemin_options.c\
 					print_help.c\
 
 PARSERC			=	lemin_parser.c\
-					parser_stock.c
 
 ODIR			=	obj
 OBJ				=	$(patsubst %.c,%.o,$(PARSERC))\

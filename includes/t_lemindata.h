@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 16:36:53 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/22 15:37:29 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/26 18:02:38 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ typedef struct	s_lemindata
 	int			options;
 	int			ret;
 	t_list		*map;
-	int			nb_rooms;
-	int			nb_links;
+	int			map_size;//everything init in this size
+	int			nb_rooms;//not used
+	int			nb_links;//not used
 	long int	antn;
 	int			vlen;
 	t_vertex	**v;
