@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 08:57:31 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/27 19:33:13 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/27 21:15:22 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ static void	build_test_sol(t_list *src, t_list *dest, t_leminpath *to_add)
 		{
 			dest->content = src->content;
 			dest = dest->next;
+			src = src->next;
 		}
 		else if (to_add)
 		{
 			dest->content = to_add;
+			dest = dest->next;
 			to_add = NULL;
 		}
-		if (src)
-			src = src->next;
 	}
 }
 
