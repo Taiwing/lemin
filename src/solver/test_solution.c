@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 08:57:31 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/19 12:30:54 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/27 19:33:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 static void	build_test_sol(t_list *src, t_list *dest, t_leminpath *to_add)
 {
-	while (src)
+	while (src || to_add)
 	{
-		if (!to_add || ((t_leminpath *)src->content)->len < to_add->len)
+		if (!to_add
+			|| (src && ((t_leminpath *)src->content)->len < to_add->len))
 		{
 			dest->content = src->content;
 			dest = dest->next;
@@ -26,7 +27,8 @@ static void	build_test_sol(t_list *src, t_list *dest, t_leminpath *to_add)
 			dest->content = to_add;
 			to_add = NULL;
 		}
-		src = src->next;
+		if (src)
+			src = src->next;
 	}
 }
 
