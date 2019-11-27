@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 08:58:47 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/27 18:31:14 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/27 22:09:15 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int is_room(const char *line)
 	{
 		if (ft_strlen(p[0]) > 0 && !ft_strstr(p[0], "-") && is_int_num(p[1]) && is_int_num(p[2]))
 		{
-			ft_printf("IS ROOM <%s>\n", line);
+//			ft_printf("IS ROOM <%s>\n", line);
 			return (1);
 		}
 	}
@@ -84,7 +84,7 @@ int is_link(const char *line)
 	{
 		if (ft_strlen(p[0]) > 0 && ft_strlen(p[1]) > 0 && p[0][0] != '#')
 		{
-			ft_printf("IS LINK <%s>\n", line);
+//			ft_printf("IS LINK <%s>\n", line);
 			return (1);
 		}
 	}
@@ -97,7 +97,7 @@ int is_comment(const char *line)
 		return (1);
 	if (line[0] == '#')
 	{
-		ft_printf("(comment) :<%s>\n", line);
+//		ft_printf("(comment) :<%s>\n", line);
 		return (1);
 	}
 	return (0);
@@ -112,7 +112,7 @@ void check_first_int(t_lemindata *lda, char *line)
 	{
 		if (is_int_num(line))
 		{
-			ft_printf("1ST NON COMMENTLINE IS NUM :<%s>\n", line);	
+//			ft_printf("1ST NON COMMENTLINE IS NUM :<%s>\n", line);	
 			t = ft_lst_push_back(&(lda->map), NULL, 0);
 			t->content = line;
 			break;
@@ -219,6 +219,6 @@ int	map_checker(t_lemindata *lda)
 		ft_error("ERROR file dont finish with links LINE:", line, r);
 	check_double_start_end(lda);
 	check_roomis_start_end(lda);
-	ft_printf("<<<<<<<<<<<end with MAP CHECKER>>>>>>>>>>>\n\n");
+//	ft_printf("<<<<<<<<<<<end with MAP CHECKER>>>>>>>>>>>\n\n");
 	return (0);
 }

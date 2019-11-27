@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 14:37:38 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/27 18:06:04 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/27 22:06:29 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,7 +305,7 @@ int  lemin_parser(t_lemindata *lda)
 	room_to_vertex(lda);
 	stock_vertex_lst_in_dict(lda);
 	stock_adjlist_and_e(lda);
-
+/*
 
 //	stock_v_in_dict(lda);
 //	init_edges(lda);
@@ -338,5 +338,6 @@ int  lemin_parser(t_lemindata *lda)
 
 	//(void)a;
 	//(void)b;
+*/
 	return (0);
 }
