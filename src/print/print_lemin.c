@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 14:54:20 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/19 16:22:16 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/27 20:45:22 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	print_solution(t_lemindata *lda, t_list *solution)
 		{
 			if (ant[i].state == MOVING)
 				ft_printf("L%d-%s%c", i + 1,
-					((t_vertex *)ant[i].room->content)->name,
+					lda->v[*(int *)ant[i].room->content]->name,
 					i < lda->antn - 1 ? ' ' : '\n');
 		}
 	}
