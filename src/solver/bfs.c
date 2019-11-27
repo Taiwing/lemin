@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 12:58:05 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/18 19:12:03 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/27 22:03:14 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ static void	queue_append(t_bfsdata *bda, int node)
 	}
 }
 
+static int	queue_popleft(t_bfsdata *bda)
+{
+	int	node;
+
+	node = *(int *)bda->first->content;
+	ft_lst_discard(NULL, &bda->first);
+	bda->last = bda->first ? bda->last : bda->first;
+	return (node);
+}
+
 static void	init_bfsdata(t_bfsdata *bda, t_lemindata *lda)
 {
 	if (!bda->size)
@@ -36,19 +46,11 @@ static void	init_bfsdata(t_bfsdata *bda, t_lemindata *lda)
 	}
 	else
 		ft_bzero((void *)bda->parent, bda->size);
+	while (bda->first)
+		queue_popleft(bda);
 	queue_append(bda, lda->s);
 	lda->v[lda->s]->path = NULL;
 	lda->v[lda->t]->path = NULL;
-}
-
-static int	queue_popleft(t_bfsdata *bda)
-{
-	int	node;
-
-	node = *(int *)bda->first->content;
-	ft_lst_discard(NULL, &bda->first);
-	bda->last = bda->first ? bda->last : bda->first;
-	return (node);
 }
 
 static int	is_visitable(t_lemindata *lda, t_bfsdata *bda)
