@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_vertex.h                                         :+:      :+:    :+:   */
+/*   t_leminpath.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/17 16:43:54 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/27 18:50:31 by yforeau          ###   ########.fr       */
+/*   Created: 2019/11/18 10:37:46 by yforeau           #+#    #+#             */
+/*   Updated: 2019/11/18 11:22:46 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_VERTEX_H
-# define T_VERTEX_H
+#ifndef T_LEMINPATH_H
+# define T_LEMINPATH_H
+# include "libft.h"
 
-# include "t_leminpath.h"
+# define FORWARD	0
+# define BACKWARD	1
 
-enum				e_status {NORMAL, SOURCE, SINK};
-
-typedef struct		s_vertex
+typedef struct			s_leminpath
 {
-	t_list			*adj;
-	enum e_status	status;
-	char			*name;
-	int				id;
-	t_leminpath		*path;
-}					t_vertex;
+	t_list				*nodes;
+	int					len;
+	struct s_leminpath	*overlap;
+}						t_leminpath;
 
 #endif

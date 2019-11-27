@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_vertex.h                                         :+:      :+:    :+:   */
+/*   lemin_solver.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/17 16:43:54 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/27 18:50:31 by yforeau          ###   ########.fr       */
+/*   Created: 2019/11/18 09:56:14 by yforeau           #+#    #+#             */
+/*   Updated: 2019/11/19 15:19:27 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_VERTEX_H
-# define T_VERTEX_H
+#ifndef LEMIN_SOLVER_H
+# define LEMIN_SOLVER_H
+# include "t_lemindata.h"
 
-# include "t_leminpath.h"
-
-enum				e_status {NORMAL, SOURCE, SINK};
-
-typedef struct		s_vertex
-{
-	t_list			*adj;
-	enum e_status	status;
-	char			*name;
-	int				id;
-	t_leminpath		*path;
-}					t_vertex;
+t_list	*lemin_solver(t_lemindata *lda, int *solution);
 
 #endif
