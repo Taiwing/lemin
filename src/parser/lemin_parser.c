@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 14:37:38 by trponess          #+#    #+#             */
-/*   Updated: 2019/11/27 13:54:56 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/27 18:06:04 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,72 +28,6 @@ unsigned long	hash_djb2(void *ptr)
 }
 
 
-int is_num(const char *str)
-{
-	int i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	if (str[0] == '-' || str[0] != '+')
-		++i;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		++i;
-	}
-	return (1);
-}
-
-
-int is_room_link(const char *line, char option)
-{
-	char **p;
-	
-	if (!line)
-		return (0);
-	if (option == 'r')
-		p = ft_strsplit(line, ' ');
-	else
-		p = ft_strsplit(line, '-');
-	if (option == 'r')
-	{
-		if (ft_wtlen(p) == 3 && ft_strlen(p[0]) > 0 && is_num(p[1]) && is_num(p[2]))
-		{
-			ft_printf("IS ROOM <%s>\n", line);
-			return (1);
-		}
-	}
-	else if (ft_wtlen(p) == 2 && !ft_strstr(line, " ") && \
-			ft_strlen(p[0]) > 0 && ft_strlen(p[1]) > 0)
-	{
-		ft_printf("IS LINK <%s>\n", line);
-		return (1);
-	}
-	return (0);
-}
-/*
-int is_link(const char *line)
-{
-	char **p
-
-	if (!line)
-		return (0);
-	if (ft_strstr(line, " "))
-		return (0);
-	char **p = ft_strsplit(line, '-');//tofree
-	if (ft_wtlen(p) == 2)
-	{
-		if (ft_strlen(p[0]) > 0 && ft_strlen(p[1]) > 0 && ft_strcmp(p[0], p[1]) != 0)
-		{
-			ft_printf("IS LINK <%s>\n", line);
-			return (1);
-		}
-	}
-	return (0);
-}
-*/
 
 void DISPLAY_DICTIONARY(t_lemindata *lda)//need nb_rooms, dict
 {
@@ -233,7 +167,7 @@ void stock_adjlist_and_e(t_lemindata *lda)
 	while (i < lda->map_size)
 	{
 		line = (char*)ft_lst_at(lda->map, i)->content;
-		if (is_room_link(line, 'l'))
+		if (is_link(line))
 		{
 			rooms = ft_strsplit(line, '-');//tofree
 				//ft_printf("line %s is link -> cutting r1 %s r2 %s\n", line, rooms[0], rooms[1]);
@@ -271,6 +205,18 @@ void stock_map(t_lemindata *lda)
 	lda->map_size = map_size;
 }
 
+void DISPLAY_MAP(t_lemindata *lda)
+{
+	int	i = 0;
+	char *line;
+	while (i < lda->map_size)
+	{
+		line = (char *)ft_lst_at(lda->map, i)->content;
+		ft_printf("line <%s>\n", line);
+		++i;
+	}
+}
+
 
 void init_vertex_edges(t_lemindata *lda)
 {
@@ -294,12 +240,12 @@ void is_start_end(t_lemindata *lda, int li, int vi)
 	last_line = NULL;
 	if (li - 1 > 0)
 		last_line = (char *)ft_lst_at(lda->map, li - 1)->content;
-	if (!ft_strcmp("##start", last_line))
+	if (last_line && !ft_strcmp("##start", last_line))
 	{
 		lda->s = vi;
 		lda->v[vi]->status = SOURCE;
 	}
-	if (!ft_strcmp("##end", last_line))
+	if (last_line && !ft_strcmp("##end", last_line))
 	{
 		lda->t = vi;
 		lda->v[vi]->status = SINK;
@@ -319,7 +265,7 @@ void room_to_vertex(t_lemindata *lda)
 	while (li < lda->map_size)
 	{
 		line = (char*)ft_lst_at(lda->map, li)->content;
-		if (is_room_link(line, 'r'))
+		if (is_room(line))
 		{
 			room_name = ft_split_whitespaces(line)[0];
 			lda->v[vi]->name = room_name;
@@ -350,9 +296,10 @@ void	stock_vertex_lst_in_dict(t_lemindata *lda)
 	}
 }
 
-void lemin_parser(t_lemindata *lda)
+int  lemin_parser(t_lemindata *lda)
 {
-	stock_map(lda);
+	//stock_map(lda);
+	map_checker(lda);
 	lda->antn = (long int)ft_atoi(ft_lst_at(lda->map, 0)->content);//check for overflow	
 	init_vertex_edges(lda);
 	room_to_vertex(lda);
@@ -380,14 +327,16 @@ void lemin_parser(t_lemindata *lda)
 
 	//-----------test------------------------------
 	//EEXECUTE IN ORDER
-	//DISPLAY_VERTEX(lda);
-	//DISPLAY_DICTIONARY(lda);
-	DISPLAY_EDGED_NATRIX(lda);
+	DISPLAY_MAP(lda);
+	DISPLAY_VERTEX(lda);
+	DISPLAY_DICTIONARY(lda);
+	//DISPLAY_EDGED_NATRIX(lda);
 	DISPLAY_ADJ_TABLE(lda);
-	//DISPLAY_SIZE_INFO(lda);
+	DISPLAY_SIZE_INFO(lda);
 	//-----------test------------------------------
 	
-	
+
 	//(void)a;
 	//(void)b;
+	return (0);
 }

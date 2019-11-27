@@ -25,6 +25,7 @@ nb_files = len(files)
 nb_fail = 0
 nb_succ = 0
 failed = []
+suc = []
 print("LAUNCHING LEMIN PARSER ON", path)
 print("nb of files to check : ", nb_files)
 print("\n")
@@ -40,6 +41,7 @@ for i,fmap in enumerate(files):
     print("{}{}{}{}".format("file", (i + 1),".", fmap).center(70, '-'))
     ret_code = subprocess.call("./lem-in <" + full_path, shell=True) 
     if ret_code == 0:
+        suc.append(full_path)
         print(">>>>>SUCCESS")
         nb_succ += 1
     else:
@@ -51,6 +53,8 @@ for i,fmap in enumerate(files):
 
 
 print("succeded", nb_succ, "/",nb_files, sep=' ')
+print('\n  -', end='')
+print(*suc, sep='\n  -')
 print("failed", nb_fail, "/",nb_files, sep=' ')
 print('\n  -', end='')
 print(*failed, sep='\n  -')

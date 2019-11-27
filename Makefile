@@ -1,7 +1,7 @@
 ############################## COMPILE VAR #####################################
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g
+CFLAGS		=	-Wall -Wextra -Werror
 #CFLAGS		=	-g
 HDIR		=	includes
 SRCDIR		=	src
@@ -19,6 +19,7 @@ SRCC			=	lemin_options.c\
 					print_help.c\
 
 PARSERC			=	lemin_parser.c\
+					map_checker.c\
 
 ODIR			=	obj
 OBJ				=	$(patsubst %.c,%.o,$(PARSERC))\
@@ -44,6 +45,7 @@ lemin_options.o: lemin_options.h t_lemindata.h t_vertex.h libft.h
 main.o: lemin_options.h t_lemindata.h t_vertex.h libft.h print_help.h\
 	lemin_parser.h
 lemin_parser.o: t_lemindata.h t_vertex.h libft.h lemin_options.h
+map_checker.o: t_lemindata.h t_vertex.h libft.h lemin_options.h
 print_help.o: lemin_options.h t_lemindata.h t_vertex.h libft.h
 %.o: %.c
 	@mkdir -p $(ODIR)

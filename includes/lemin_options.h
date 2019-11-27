@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 22:44:21 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/26 14:55:42 by trponess         ###   ########.fr       */
+/*   Updated: 2019/11/27 14:05:17 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,8 @@
 # define OPTSTRING			"ha:se"
 
 void	get_lemin_options(t_lemindata *lda, int argc, char **argv);
+int is_room(const char *line);
+int is_link(const char *line);
+int	map_checker(t_lemindata *lda);
 
 #endif
