@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 14:54:20 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/27 22:40:26 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/27 23:06:36 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,19 @@ static int	move_ants(t_ant *ant, t_list *solution, int len, int *moving)
 	{
 		if (ant[i].state == INACTIVE && solution)
 		{
-			ant[i].room = ((t_leminpath *)solution->content)->nodes->next;
+			ant[i].room = ((t_leminpath *)solution->content)->nodes;
 			solution = solution->next;
 			ant[i].state = MOVING;
-			++(*moving);
 		}
-		else if (ant[i].state == MOVING)
+		if (ant[i].state == MOVING)
 		{
 			if (!(ant[i].room = ant[i].room->next))
 			{
 				ant[i].state = ARRIVED;
 				++arrived;
 			}
-			*moving = ant[i].state == MOVING ? *moving + 1 : *moving;
+			else
+				++(*moving);
 		}
 	}
 	return (arrived);
@@ -75,7 +75,6 @@ static void	print_map(t_list *map)
 	}
 	ft_printf("\n");
 }
-
 void		print_lemin(t_lemindata *lda, t_list *solution, int turns)
 {
 	if (solution)
