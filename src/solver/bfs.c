@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 12:58:05 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/27 22:03:14 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/28 15:58:33 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static void	init_bfsdata(t_bfsdata *bda, t_lemindata *lda)
 	else
 		ft_bzero((void *)bda->parent, bda->size);
 	while (bda->first)
-		queue_popleft(bda);
+		ft_lst_discard(NULL, &bda->first);
+	bda->last = NULL;
 	queue_append(bda, lda->s);
 	lda->v[lda->s]->path = NULL;
 	lda->v[lda->t]->path = NULL;
@@ -92,7 +93,7 @@ t_leminpath	*bfs(t_lemindata *lda)
 		while (ptr)
 		{
 			bda.adj = *(int *)ptr->content;
-			if (is_visitable(lda, &bda))
+		if (is_visitable(lda, &bda))
 			{
 				bda.parent[bda.adj] = bda.cur + 1;
 				queue_append(&bda, bda.adj);

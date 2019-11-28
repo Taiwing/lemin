@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 14:13:41 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/27 21:19:14 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/28 15:56:08 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,20 +65,18 @@ void		explain_solution(t_lemindata *lda, int turns, int new_turns)
 void	explain_final_solution(t_lemindata *lda, t_list *solution)
 {
 	t_leminpath	*path;
-	t_list		*ptr;
 	int			i;
 
 	if ((lda->options & O_EXPLAINED))
 	{
 		i = 0;
-		ptr = solution;
-		while (ptr)
+		while (solution)
 		{
-			path = ptr->content;
+			path = solution->content;
 			ft_printf("path %d:\nlength = %d\n", ++i, path->len);
 			print_path(lda, path);
 			ft_printf("\n");
-			ptr = ptr->next;
+			solution = solution->next;
 		}
 	}
 }
