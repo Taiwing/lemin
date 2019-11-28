@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 12:58:05 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/28 15:58:33 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/28 20:18:27 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_leminpath	*bfs(t_lemindata *lda)
 		while (ptr)
 		{
 			bda.adj = *(int *)ptr->content;
-		if (is_visitable(lda, &bda))
+			if (is_visitable(lda, &bda))
 			{
 				bda.parent[bda.adj] = bda.cur + 1;
 				queue_append(&bda, bda.adj);
