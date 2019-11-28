@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 15:20:41 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/19 16:24:34 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/28 17:24:17 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ typedef struct		s_ant
 	t_list			*room;
 }					t_ant;
 
-void				print_lemin(t_lemindata *lda, t_list *solution, int turns);
+void				print_lemin(t_lemindata *lda, t_list *solution);
 
 #endif

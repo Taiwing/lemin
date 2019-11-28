@@ -39,6 +39,7 @@ typedef struct	s_lemindata
 	int			**e;
 	int			s;
 	int			t;
+	int			turns;
 	t_dict		v_dict;
 }				t_lemindata;
 

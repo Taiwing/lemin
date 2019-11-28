@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 14:13:41 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/28 15:56:08 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/28 17:27:00 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,15 @@ void		explain_split(t_lemindata *lda, t_leminpath *path,
 	}
 }
 
-void		explain_solution(t_lemindata *lda, int turns, int new_turns)
+void		explain_solution(t_lemindata *lda, int new_turns)
 {
 	if ((lda->options & O_EXPLAINED) && !(lda->options & O_SOLUTION))
 	{
-		if (turns == -1)
+		if (lda->turns == -1)
 			ft_printf("Found first solution in %d turns.\n", new_turns);
 		else
 			ft_printf("Old solution: %d turns\nNew solution: %d turns\n",
-				turns, new_turns);
+				lda->turns, new_turns);
 	}
 }
 

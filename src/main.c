@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 16:36:48 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/27 18:49:18 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/28 17:27:45 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,19 @@
 int	main(int argc, char **argv)
 {
 	t_lemindata	lda;
-	int			turns;
 	t_list		*solution;
 
-	turns = -1;
-	solution = NULL;
 	ft_bzero(&lda, sizeof(t_lemindata));
 	get_lemin_options(&lda, argc, argv);
+	lda.turns = -1;
+	solution = NULL;
 	if (lda.options & O_HELP)
 		help(argv[0]);
 	else
 	{
 		if (!lemin_parser(&lda))
-			solution = lemin_solver(&lda, &turns);
-		print_lemin(&lda, solution, turns);
+			solution = lemin_solver(&lda);
+		print_lemin(&lda, solution);
 	}
 	ft_heap_collector(NULL, FT_COLLEC_FREE);
 	return (lda.ret);

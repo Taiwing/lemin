@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 08:57:31 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/28 17:08:21 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/28 17:22:00 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static int	count_turns(t_list *solution, int len, int n)
 	return (turns);
 }
 
-int			test_solution(t_list *solution, t_leminpath *to_add, int antn)
+int			test_solution(t_list *solution, t_leminpath *to_add,
+				t_lemindata *lda)
 {
 	static t_list	*test_sol = NULL;
 	static int		len = 0;
@@ -77,5 +78,5 @@ int			test_solution(t_list *solution, t_leminpath *to_add, int antn)
 	}
 	build_test_sol(solution, test_sol, to_add);
 	ft_lst_reverse(&test_sol);
-	return (count_turns(test_sol, new_len, antn));
+	return (count_turns(test_sol, new_len, lda->antn));
 }

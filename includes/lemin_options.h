@@ -32,7 +32,7 @@ void	help(char *name);
 void	explain_split(t_lemindata *lda, t_leminpath *path,
 				t_leminpath *overlap_path, t_leminpath *split[2]);
 void	explain_path(t_lemindata *lda, t_leminpath *path);
-void	explain_solution(t_lemindata *lda, int turns, int new_turns);
+void	explain_solution(t_lemindata *lda, int new_turns);
 void	explain_final_solution(t_lemindata *lda, t_list *solution);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 07:22:56 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/20 20:23:21 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/28 17:22:51 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void		clean_split(t_leminpath *split[2], t_list **solution,
 }
 
 int				fix_overlap(t_lemindata *lda, t_leminpath **path,
-					t_list **solution, int turns)
+					t_list **solution)
 {
 	t_leminpath	*overlap_path;
 	t_leminpath	*split[2];
@@ -69,13 +69,13 @@ int				fix_overlap(t_lemindata *lda, t_leminpath **path,
 
 	overlap_path = cut_overlap_path(*path, (*path)->overlap, lda);
 	split[1] = NULL;
-	new_t = turns;
+	new_t = lda->turns;
 	if ((split[0] = bfs(lda)) && !split[0]->overlap)
 	{
 		set_path(split[0], lda, (int[2]){0, 0}, split[0]);
 		replace_path(solution, (*path)->overlap, split[0]);
 		if ((split[1] = bfs(lda)) && !split[1]->overlap
-			&& (new_t = test_solution(*solution, split[1], lda->antn)) < turns)
+			&& (new_t = test_solution(*solution, split[1], lda)) < lda->turns)
 		{
 			set_path(overlap_path, lda, (int[2]){1, 1}, NULL);	//reset overlap path
 			//unset first path AFTER reseting the overlap_path
@@ -85,7 +85,7 @@ int				fix_overlap(t_lemindata *lda, t_leminpath **path,
 			*path = split[1];
 		}
 	}
-	if (new_t >= turns)
+	if (new_t >= lda->turns)
 		clean_split(split, solution, (*path)->overlap, lda);
 	del_path(&overlap_path);
 	return (new_t);

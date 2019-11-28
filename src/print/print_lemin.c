@@ -6,38 +6,37 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 14:54:20 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/27 23:06:36 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/28 17:48:30 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin_options.h"
 #include "print_lemin.h"
 
-static int	move_ants(t_ant *ant, t_list *solution, int len, int *moving)
+static int	move_ants(t_lemindata *lda, t_ant *ant,
+				t_list *solution, int *moving)
 {
 	int	i;
 	int	arrived;
 
 	i = -1;
 	arrived = 0;
-	while (++i < len)
+	while (++i < lda->antn)
 	{
-		if (ant[i].state == INACTIVE && solution)
+		if (ant[i].state == INACTIVE && solution
+			&& ((t_leminpath *)solution->content)->len <= lda->turns)
 		{
 			ant[i].room = ((t_leminpath *)solution->content)->nodes;
 			solution = solution->next;
 			ant[i].state = MOVING;
 		}
-		if (ant[i].state == MOVING)
+		if (ant[i].state == MOVING && (!(ant[i].room = ant[i].room->next)))
 		{
-			if (!(ant[i].room = ant[i].room->next))
-			{
-				ant[i].state = ARRIVED;
-				++arrived;
-			}
-			else
-				++(*moving);
+			ant[i].state = ARRIVED;
+			++arrived;
 		}
+		else if (ant[i].state == MOVING)
+			++(*moving);
 	}
 	return (arrived);
 }
@@ -54,7 +53,7 @@ static void	print_solution(t_lemindata *lda, t_list *solution)
 	while (n)
 	{
 		moving = 0;
-		n -= move_ants(ant, solution, lda->antn, &moving);
+		n -= move_ants(lda, ant, solution, &moving);
 		i = -1;
 		while (n && ++i < lda->antn)
 		{
@@ -63,6 +62,7 @@ static void	print_solution(t_lemindata *lda, t_list *solution)
 					lda->v[*(int *)ant[i].room->content]->name,
 					--moving ? ' ' : '\n');
 		}
+		--lda->turns;
 	}
 }
 
@@ -75,10 +75,13 @@ static void	print_map(t_list *map)
 	}
 	ft_printf("\n");
 }
-void		print_lemin(t_lemindata *lda, t_list *solution, int turns)
+void		print_lemin(t_lemindata *lda, t_list *solution)
 {
+	int	turns;
+
 	if (solution)
 	{
+		turns = lda->turns;
 		if (!(lda->options & (O_SOLUTION | O_EXPLAINED)))
 			print_map(lda->map);
 		if (lda->options & O_EXPLAINED)

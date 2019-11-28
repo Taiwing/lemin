@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 09:47:21 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/19 15:17:30 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/28 17:27:29 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,27 +29,27 @@ static int	get_maxflow(t_lemindata *lda)
 }
 
 static int	augmenting_path(t_lemindata *lda, t_leminpath **path,
-				t_list **solution, int *turns)
+				t_list **solution)
 {
 	t_leminpath	*overlap;
 	int			new_turns;
 
 	if((overlap = (*path)->overlap))
-		new_turns = fix_overlap(lda, path, solution, *turns);
+		new_turns = fix_overlap(lda, path, solution);
 	else
-		new_turns = test_solution(*solution, *path, lda->antn); 
-	if (new_turns < *turns || *turns == -1)
+		new_turns = test_solution(*solution, *path, lda); 
+	if (new_turns < lda->turns || lda->turns == -1)
 	{
 		if (!overlap)
 			explain_path(lda, *path);
-		explain_solution(lda, *turns, new_turns);
-		*turns = new_turns;
+		explain_solution(lda, new_turns);
+		lda->turns = new_turns;
 		return (1);
 	}
 	return (0);
 }
 
-t_list		*lemin_solver(t_lemindata *lda, int *turns)
+t_list		*lemin_solver(t_lemindata *lda)
 {
 	int			flow;
 	int			maxflow;
@@ -63,7 +63,7 @@ t_list		*lemin_solver(t_lemindata *lda, int *turns)
 	{
 		if (!(path = bfs(lda)))
 			break ;
-		if (augmenting_path(lda, &path, &solution, turns))
+		if (augmenting_path(lda, &path, &solution))
 		{
 			add_path(lda, &solution, path);
 			++flow;
