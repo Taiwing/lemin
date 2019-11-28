@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 08:57:31 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/27 21:15:22 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/11/28 17:08:21 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	count_turns(t_list *solution, int len, int n)
 	int		maxl;
 
 	maxl = ((t_leminpath *)solution->content)->len;
-	turns = maxl - 1;
+	turns = maxl;
 	while (solution && n > 0)
 	{
 		n -= maxl + 1 - ((t_leminpath *)solution->content)->len;
