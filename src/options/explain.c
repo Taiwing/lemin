@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 14:13:41 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/28 17:27:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/12/03 07:30:25 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		explain_solution(t_lemindata *lda, int new_turns)
 	}
 }
 
-void	explain_final_solution(t_lemindata *lda, t_list *solution)
+void		explain_final_solution(t_lemindata *lda, t_list *solution)
 {
 	t_leminpath	*path;
 	int			i;

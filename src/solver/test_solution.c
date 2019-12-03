@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 08:57:31 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/28 17:22:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/12/03 07:33:29 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int			test_solution(t_list *solution, t_leminpath *to_add,
 	static int		len = 0;
 	int				new_len;
 	t_list			*ptr;
-	
+
 	if (len)
 	{
 		ptr = test_sol;

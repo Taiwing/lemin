@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 09:47:21 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/28 17:27:29 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/12/03 07:32:54 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ static int	augmenting_path(t_lemindata *lda, t_leminpath **path,
 	t_leminpath	*overlap;
 	int			new_turns;
 
-	if((overlap = (*path)->overlap))
+	if ((overlap = (*path)->overlap))
 		new_turns = fix_overlap(lda, path, solution);
 	else
-		new_turns = test_solution(*solution, *path, lda); 
+		new_turns = test_solution(*solution, *path, lda);
 	if (new_turns < lda->turns || lda->turns == -1)
 	{
 		if (!overlap)

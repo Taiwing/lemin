@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 14:54:20 by yforeau           #+#    #+#             */
-/*   Updated: 2019/11/28 17:48:30 by yforeau          ###   ########.fr       */
+/*   Updated: 2019/12/03 07:31:59 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	print_solution(t_lemindata *lda, t_list *solution)
 	int		moving;
 	int		n;
 	int		i;
-	
+
 	n = lda->antn;
 	ant = ft_memalloc(n * sizeof(t_ant));
 	while (n)
@@ -75,6 +75,7 @@ static void	print_map(t_list *map)
 	}
 	ft_printf("\n");
 }
+
 void		print_lemin(t_lemindata *lda, t_list *solution)
 {
 	int	turns;
