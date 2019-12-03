@@ -1,7 +1,7 @@
 ############################## COMPILE VAR #####################################
 
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -O3 -ffreestanding -fno-builtin -flto
 #CFLAGS		=	-g
 HDIR		=	includes
 SRCDIR		=	src
