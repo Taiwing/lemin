@@ -6,7 +6,7 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 09:47:42 by trponess          #+#    #+#             */
-/*   Updated: 2019/12/03 10:32:48 by trponess         ###   ########.fr       */
+/*   Updated: 2019/12/03 10:55:01 by trponess         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		check_comment_room_link(t_lemindata *lda, const char *line, int r)
 {
 	static int			fun_i;
 	t_list				*t;
-	static const int	(*check_fun[2])(const char *) = {&is_room, &is_link};
+	static int			(*check_fun[2])(const char *) = {&is_room, &is_link};
 
 	if (!is_comment(line) && !check_fun[fun_i](line))
 	{

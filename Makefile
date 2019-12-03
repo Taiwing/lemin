@@ -24,6 +24,8 @@ OPTIONSC		=	explain.c\
 					lemin_options.c\
 
 PARSERC			=	lemin_parser.c\
+					lemin_parser2.c\
+					lemin_parser3.c\
 					map_checker.c\
 
 PRINTC			=	print_lemin.c\
@@ -68,6 +70,10 @@ help.o: lemin_options.h t_lemindata.h t_vertex.h t_leminpath.h libft.h
 lemin_options.o: lemin_options.h t_lemindata.h t_vertex.h t_leminpath.h\
 	libft.h
 lemin_parser.o: t_lemindata.h t_vertex.h t_leminpath.h libft.h lemin_options.h
+lemin_parser2.o: t_lemindata.h t_vertex.h t_leminpath.h libft.h\
+	lemin_options.h
+lemin_parser3.o: t_lemindata.h t_vertex.h t_leminpath.h libft.h\
+	lemin_options.h
 map_checker.o: t_lemindata.h t_vertex.h t_leminpath.h libft.h lemin_options.h
 print_lemin.o: lemin_options.h t_lemindata.h t_vertex.h t_leminpath.h libft.h\
 	print_lemin.h
