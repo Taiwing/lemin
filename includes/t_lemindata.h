@@ -6,15 +6,15 @@
 /*   By: trponess <trponess@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 18:02:38 by trponess          #+#    #+#             */
-/*   Updated: 2019/12/03 11:00:05 by trponess         ###   ########.fr       */
+/*   Updated: 2019/12/03 13:03:13 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_LEMINDATA_H
 # define T_LEMINDATA_H
 # include "t_vertex.h"
+# define HASH_SIZE 4096
 
-#define HASH_SIZE 4096
 typedef t_list *t_dict[HASH_SIZE];
 
 typedef struct	s_dict_elem
@@ -50,7 +50,8 @@ void			init_vertex_edges(t_lemindata *lda);
 void			ft_error(char *msg, const char *line, int r);
 int				lemin_parser(t_lemindata *lda);
 void			check_empty_start_l_space(const char *line, int r);
-int				check_comment_room_link(t_lemindata *lda, const char *line, int r);
+int				check_comment_room_link(t_lemindata *lda,
+					const char *line, int r);
 void			check_double_start_end(t_lemindata *lda);
 void			check_roomis_start_end(t_lemindata *lda);
 void			check_first_int(t_lemindata *lda, char *line);
